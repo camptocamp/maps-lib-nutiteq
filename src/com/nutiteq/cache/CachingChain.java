@@ -4,7 +4,7 @@ package com.nutiteq.cache;
  * Combines different caching levels to one cache.
  */
 public class CachingChain implements Cache {
-  private final Cache[] cacheLevels;
+  protected final Cache[] cacheLevels;
 
   /**
    * Define caching chain with given cache levels.
