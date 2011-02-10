@@ -3,6 +3,8 @@
  */
 package com.mgmaps.cache;
 
+import java.util.Vector;
+
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -210,4 +212,22 @@ public class ScreenCache {
     }
   }
   //BattleTac code ends
+
+  public Vector<MapTile> getTiles() {
+    Vector<MapTile> tls = new Vector<MapTile>();
+    for(int i=0; i < size; i++) {
+      if( valid[i] && tiles[i] != null ) {
+        tls.add(tiles[i]);
+      }
+    }
+    return tls;
+  }
+
+  public void renewTileImages() {
+    for(int i=0; i < size; i++) {
+      if( valid[i] && tiles[i] != null ) {
+        images[i] = tiles[i].getImage();
+      }
+    }
+  }
 }

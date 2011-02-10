@@ -131,10 +131,10 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private ControlKeysHandler controlKeysHandler;
   private Cursor cursor;
 
-  private GeoMap displayedMap;
+  protected GeoMap displayedMap;
 
   private KmlServicesHandler kmlServicesHandler;
-  private com.nutiteq.cache.Cache networkCache;
+  protected com.nutiteq.cache.Cache networkCache;
 
   private final TasksRunner taskRunner;
 
@@ -189,7 +189,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
 
   private final Vector changedAreas = new Vector();
 
-  private LocationSource locationSource;
+  protected LocationSource locationSource;
   private GeoMap[] tileSearchStrategy;
 
   private final LicenseKeyCheck licenseKeyCheck;
@@ -1531,9 +1531,26 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
           overlayQueue.removeAllElements();
 
         }
-
       }
+    }
+  }
 
+  public void refreshTileOverlay() {
+    Vector<MapTile> cachedTiles = screenCache.getTiles();
+
+    final MapTileOverlay overlay = displayedMap.getTileOverlay();
+
+    if (overlay != null ) {
+      for(int i=0; i < cachedTiles.size(); i++) {
+        enqueueDownload(new TileOverlayRetriever(cachedTiles.get(i), overlay), Cache.CACHE_LEVEL_MEMORY);
+      }
+    } else {
+      for(int i=0; i < cachedTiles.size(); i++) {
+        cachedTiles.get(i).setOverlayData(null);
+      }
+      screenCache.renewTileImages();
+      fullScreenUpdate();
+      repaint();
     }
   }
 
