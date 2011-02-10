@@ -373,11 +373,11 @@ public class Tools {
    *          logarithmic scaling level (1 = scale by 2, 2 = scale by 4, etc.)
    * @return the scaled image
    */
-  public static Image scaleImage05(final Image src, final int dif) {
+  public static Image scaleImage05(final Image src, final double dif) {
     final int srcWidth = src.getWidth();
     final int srcHeight = src.getHeight();
-    final int dstWidth = srcWidth >> dif;
-    final int dstHeight = srcHeight >> dif;
+    final int dstWidth = (int) Math.ceil(srcWidth / Math.pow(2, dif));
+    final int dstHeight = (int) Math.ceil(srcHeight / Math.pow(2, dif));
 
     //TODO jaanus : this should actually be handled somewhere outside
     if (dstWidth == 0 || dstHeight == 0) {
@@ -394,11 +394,11 @@ public class Tools {
      * http://www.cs.helsinki.fi/group/goa/mallinnus/lines/bresenh.html
      */
     for (int x = 1; x < dstWidth; x++) {
-      srcPos[x] = x << dif;
+      srcPos[x] = (int) Math.floor(x * Math.pow(2, dif));
     }
 
     for (int y = 0; y < dstHeight; y++) {
-      src.getRGB(lineRGB, 0, srcWidth, 0, y << dif, srcWidth, 1);
+      src.getRGB(lineRGB, 0, srcWidth, 0, (int) Math.floor(y * Math.pow(2, dif)), srcWidth, 1);
       for (int x = 1; x < dstWidth; x++) {
         // skip pixel 0
         lineRGB[x] = lineRGB[srcPos[x]];
@@ -418,15 +418,15 @@ public class Tools {
    *          logarithmic scaling level (1 = scale by 2, 2 = scale by 4, etc.)
    * @return the scaled image
    */
-  public static Image scaleImage20(final Image src, final int dif) {
+  public static Image scaleImage20(final Image src, final double dif) {
     return scaleImage20(src, -1, -1, dif);
   }
 
-  public static Image scaleImage20(final Image src, final int sourceX, final int sourceY, final int dif) {
+  public static Image scaleImage20(final Image src, final int sourceX, final int sourceY, final double dif) {
     final int dstWidth = src.getWidth();
     final int dstHeight = src.getHeight();
-    int srcWidth = dstWidth >> dif;
-    int srcHeight = dstHeight >> dif;
+    int srcWidth = (int) Math.ceil(dstWidth / Math.pow(2, dif));
+    int srcHeight = (int) Math.ceil(dstHeight / Math.pow(2, dif));
     if (srcWidth < 1) {
       srcWidth = 1;
     }
@@ -446,11 +446,11 @@ public class Tools {
      * http://www.cs.helsinki.fi/group/goa/mallinnus/lines/bresenh.html
      */
     for (int x = 0; x < dstWidth; x++) {
-      srcPos[x] = srcX + (x >> dif);
+      srcPos[x] = srcX + (int) Math.floor((x / Math.pow(2, dif)));
     }
 
     for (int y = 0; y < dstHeight; y++) {
-      src.getRGB(lineRGB, 0, dstWidth, 0, srcY + (y >> dif), dstWidth, 1);
+      src.getRGB(lineRGB, 0, dstWidth, 0, srcY + (int) Math.floor((y / Math.pow(2, dif))), dstWidth, 1);
       for (int x = 0; x < dstWidth; x++) {
         lineRGB2[x] = lineRGB[srcPos[x]];
       }

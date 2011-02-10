@@ -103,7 +103,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private int displayX;
   private int displayY;
 
-  private MapPos middlePoint;
+  protected MapPos middlePoint;
 
   // tile display
   private int tileX;
@@ -195,7 +195,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private final LicenseKeyCheck licenseKeyCheck;
 
   private boolean paintingScreen;
-  private TileMapBounds tileMapBounds;
+  protected TileMapBounds tileMapBounds;
 
   private boolean mappingStarted;
 
@@ -826,7 +826,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     cleanMapBuffer();
     middlePoint = displayedMap.zoom(middlePoint, 1);
     tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
-    createZoomBufferAndUpdateScreen(-1, true);
+    createZoomBufferAndUpdateScreen(1, true, true);
   }
 
   /**
@@ -843,7 +843,12 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     createZoomBufferAndUpdateScreen(1, true);
   }
 
-  private void createZoomBufferAndUpdateScreen(final int scaleDown, final boolean needZoomDelay) {
+  protected void createZoomBufferAndUpdateScreen(final double scale, final boolean needZoomDelay) {
+    createZoomBufferAndUpdateScreen(scale, needZoomDelay, false);
+  }
+
+  protected void createZoomBufferAndUpdateScreen(final double scale, final boolean needZoomDelay,
+        final boolean zoomOut) {
     // kind of a hack for pointer events. if map is dragged and pointer is
     // released outside painted area (when map is not full screen) the pointer
     // location values are not reset.
@@ -851,15 +856,13 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     pointerY = -1;
 
     fullScreenUpdate();
-    final int absScaleDown = (scaleDown > 0) ? scaleDown : -scaleDown;
     final Image frontImage = mapBuffer.getFrontImage();
-    final int scaledWidth = (scaleDown > 0) ? (frontImage.getWidth() >> absScaleDown) : frontImage
-        .getWidth();
-    final int scaledHeight = (scaleDown > 0) ? (frontImage.getHeight() >> absScaleDown)
+    final double scaledWidth = (zoomOut) ? (frontImage.getWidth() / Math.pow(2, scale))
+        : frontImage.getWidth();
+    final double scaledHeight = (zoomOut) ? (frontImage.getHeight() / Math.pow(2, scale))
         : frontImage.getHeight();
-    final Image scaled = (scaleDown > 0) ? Tools.scaleImage05(frontImage, absScaleDown) : Tools
-        .scaleImage20(frontImage, absScaleDown);
-
+    final Image scaled = (zoomOut) ? Tools.scaleImage05(frontImage, scale) : Tools
+        .scaleImage20(frontImage, scale);
     zoomBufferX = middlePoint.getX() - displayCenterX;
     zoomBufferY = middlePoint.getY() - displayCenterY;
 
@@ -867,8 +870,8 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     zoomBufferGraphics.setColor(0xFFFFFFFF);
     zoomBufferGraphics.fillRect(0, 0, zoomBuffer.getWidth(), zoomBuffer.getHeight());
     if (scaledWidth > 0 && scaledHeight > 0) {
-      zoomBufferGraphics.drawImage(scaled, (zoomBuffer.getWidth() - scaledWidth) / 2, (zoomBuffer
-          .getHeight() - scaledHeight) / 2, Graphics.TOP | Graphics.LEFT);
+      zoomBufferGraphics.drawImage(scaled, (int)Math.ceil((zoomBuffer.getWidth() - scaledWidth) / 2), (int) Math.ceil((zoomBuffer
+          .getHeight() - scaledHeight) / 2), Graphics.TOP | Graphics.LEFT);
     }
 
     computeTilesToDisplay();
@@ -899,7 +902,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     mapMoved();
   }
 
-  private void cleanMapBuffer() {
+  protected void cleanMapBuffer() {
     fullScreenUpdate();
     paintMap(mapBuffer);
   }
