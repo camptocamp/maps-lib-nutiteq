@@ -10,7 +10,7 @@ import android.graphics.Bitmap.Config;
 public class Image {
   private final Bitmap bitmap;
 
-  private Image(final Bitmap bitmap) {
+  public Image(final Bitmap bitmap) {
     this.bitmap = bitmap;
   }
 
