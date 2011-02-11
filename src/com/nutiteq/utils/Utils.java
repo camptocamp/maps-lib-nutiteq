@@ -191,6 +191,7 @@ public class Utils {
     final Image result = Image.createImage(newWidth, newHeight);
     final Graphics g = result.getGraphics();
     g.drawImage(resized, (newWidth - resized.getWidth()) / 2, (newHeight - resized.getHeight()) / 2, Graphics.TOP | Graphics.LEFT);
+    resized.getBitmap().recycle();
     return result;
   }
 
