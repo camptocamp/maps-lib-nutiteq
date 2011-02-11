@@ -15,16 +15,16 @@ import com.nutiteq.components.WgsPoint;
  * indicating connection state (either connected or connection lost).
  */
 public class NutiteqLocationMarker extends TimerTask implements LocationMarker {
-  private WgsPoint lastWgsLocation;
-  private BasicMapComponent mapComponent;
-  private MapPos mapPosition;
-  private final Placemark placemarkConnected;
+  protected BasicMapComponent mapComponent;
+  protected LocationSource locationSource;
+  protected MapPos mapPosition;
+  protected final Placemark placemarkConnected;
+  protected boolean track;
+  protected WgsPoint lastWgsLocation;
   private final int updateInterval;
   private boolean running;
-  private boolean track;
   private final Placemark placemarkConnectionLost;
   private final int lastStatus;
-  private LocationSource locationSource;
   //TODO jaanus : check this timer stuff
   private final Timer timer = new Timer();
 
@@ -103,7 +103,7 @@ public class NutiteqLocationMarker extends TimerTask implements LocationMarker {
     }
   }
 
-  private void update() {
+  protected void update() {
     if (mapComponent == null || lastWgsLocation == null) {
       return;
     }
