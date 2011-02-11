@@ -123,7 +123,7 @@ public class MapTile {
    * Not part of public API
    */
   public void setImagesData(final byte[][] data) {
-    if (data == null || data.length == 0 || data[0].length == 0) {
+    if (data == null || data.length == 0 || data[0] == null || data[0].length == 0) {
       failCount++;
       Log.error("Could not retrieve " + getIDString());
       requestor.tileRetrieved(this);
@@ -169,12 +169,14 @@ public class MapTile {
           }
         }
         imageGraphics.drawImage(tmp, 0, 0, Graphics.TOP | Graphics.LEFT);
+        tmp.getBitmap().recycle();
       }
 
       if (overlayData != null) {
         for (int i = 0; i < overlayData.length; i++) {
           final Image tmp = Image.createImage(overlayData[i], 0, overlayData[i].length);
           imageGraphics.drawImage(tmp, 0, 0, Graphics.TOP | Graphics.LEFT);
+          tmp.getBitmap().recycle();
         }
       }
       return tileImage;
