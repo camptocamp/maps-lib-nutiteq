@@ -48,6 +48,11 @@ public class ImageBuffer {
   }
 
   public void clean() {
+    for (int i = 0; i < bufferImages.length; i++) {
+      if (bufferImages[i] != null) {
+        bufferImages[i].getBitmap().recycle();
+      }
+    }
     bufferImages = null;
     bufferGraphics = null;
   }
