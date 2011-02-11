@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class CacheIndexDatabaseHelper {
   private static final int DATABASE_VERSION = 1;
-  private static final String CACHE_INDEX_TABLE = "cache_index";
+  public static final String CACHE_INDEX_TABLE = "cache_index";
   private static final String CREATE_CACHE_INDEX_TABLE = "CREATE TABLE "
       + CACHE_INDEX_TABLE
       + " (id INTEGER PRIMARY KEY AUTOINCREMENT, cache_key TEXT NOT NULL, "
@@ -20,12 +20,12 @@ public class CacheIndexDatabaseHelper {
   private final Context ctx;
   private DatabaseHelper databaseHelper;
   private final String databaseName;
-  private SQLiteDatabase database;
+  public SQLiteDatabase database;
 
   private static final String KEY_ID = "id";
   private static final String KEY_CACHE_KEY = "cache_key";
-  private static final String KEY_RESOURCE_PATH = "resource_path";
-  private static final String KEY_RESOURCE_SIZE = "resource_size";
+  public static final String KEY_RESOURCE_PATH = "resource_path";
+  public static final String KEY_RESOURCE_SIZE = "resource_size";
   private static final String KEY_USED_TIMESTAMP = "used_timestamp";
 
   private static final String LOG_TAG = "CacheIndexDatabaseHelper";
@@ -111,7 +111,7 @@ public class CacheIndexDatabaseHelper {
     return removedFiles;
   }
 
-  private void deleteFilesFromIndex(final List<String> removedFiles) {
+  public void deleteFilesFromIndex(final List<String> removedFiles) {
     final String[] files = removedFiles.toArray(new String[removedFiles.size()]);
     final StringBuffer whereClause = new StringBuffer();
     for (int i = 0; i < files.length; i++) {
