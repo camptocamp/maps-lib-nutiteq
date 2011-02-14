@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="com/nutiteq/landmark/" kind="src" path="src"/>
+	<classpathentry kind="src" path="resources/images"/>
 	<classpathentry kind="src" path="android/src"/>
 	<classpathentry excluding="org/json/util/" kind="src" path="thirdparty/src"/>
 	<classpathentry kind="src" path="gen"/>
