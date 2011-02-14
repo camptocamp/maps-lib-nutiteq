@@ -52,7 +52,7 @@ private BasicMapComponent mapComponent;
   }
 
   public boolean onTouchEvent(final MotionEvent event) {
-      System.out.println("touch event action="+event.getAction());
+      //System.out.println("touch event action="+event.getAction());
       boolean hasMultiTouch = Integer.parseInt(Build.VERSION.SDK) >= 5;
       int nPointer = hasMultiTouch ? MotionEventWrap.getPointerCount(event) : 1;
       
@@ -70,27 +70,27 @@ private BasicMapComponent mapComponent;
 
               float moved = altPointerStartDist2 - altPointerStartDist;
 
-              System.out.println("dt finish "+altPointerStartX2+" "+altPointerStartY2+" "+altPointerStartDist2+ " "+moved);
+              //System.out.println("dt finish "+altPointerStartX2+" "+altPointerStartY2+" "+altPointerStartDist2+ " "+moved);
               
               if (moved < -10000 && moved > -70000) {
                   mapComponent.zoomOut();
-                  System.out.println("Zoomed out to " + mapComponent.getZoom());
+                  //System.out.println("Zoomed out to " + mapComponent.getZoom());
               }
               if (moved < -70000) {
                   mapComponent.zoomOut();
                   mapComponent.zoomOut();
-                  System.out
-                          .println("Zoomed out -2 to " + mapComponent.getZoom());
+                  //System.out
+                  //        .println("Zoomed out -2 to " + mapComponent.getZoom());
               }
 
               if (moved > 10000 && moved < 70000) {
                   mapComponent.zoomIn();
-                  System.out.println("Zoomed in to " + mapComponent.getZoom());
+                  //System.out.println("Zoomed in to " + mapComponent.getZoom());
               }
               if (moved > 70000) {
                   mapComponent.zoomIn();
                   mapComponent.zoomIn();
-                  System.out.println("Zoomed in +2 to " + mapComponent.getZoom());
+                  //System.out.println("Zoomed in +2 to " + mapComponent.getZoom());
               }
               }
               break;
@@ -103,25 +103,25 @@ private BasicMapComponent mapComponent;
               altPointerStartDist = ((altPointerStartX - x) * (altPointerStartX - x))
                       + ((altPointerStartY - y) * (altPointerStartY - y));
 
-              System.out.println("dual-touch started from "+altPointerStartX+" "+altPointerStartY+ " "+altPointerStartDist);
+              //System.out.println("dual-touch started from "+altPointerStartX+" "+altPointerStartY+ " "+altPointerStartDist);
               }
               
               break;
           case MotionEvent.ACTION_DOWN:
               mapComponent.pointerPressed(x, y);
 
-              System.out.println("action down "+x+" "+ y);
+              //System.out.println("action down "+x+" "+ y);
               break;
           case MotionEvent.ACTION_MOVE:
-              System.out.println("action move");
+              //System.out.println("action move");
               if (nPointer == 1 && !dualZoom) {
                   mapComponent.pointerDragged(x, y);
-                  System.out.println("dragged "+x+" "+y);
+                  //System.out.println("dragged "+x+" "+y);
               }
               break;
           case MotionEvent.ACTION_UP:
               mapComponent.pointerReleased(x, y);
-              System.out.println("action up "+x+" "+ y);
+              //System.out.println("action up "+x+" "+ y);
               dualZoom=false; // reset 
               break;
 
