@@ -94,11 +94,11 @@ import com.nutiteq.utils.Utils;
 public class BasicMapComponent extends BaseMapComponent implements MapTilesRequestor, Pannable,
     DisplayUpdater, DownloadHandler {
   private static final int REPAINT_CALL_DELAY = 1000;
-  private int displayWidth;
-  private int displayHeight;
+  protected int displayWidth;
+  protected int displayHeight;
 
-  private int displayCenterX;
-  private int displayCenterY;
+  protected int displayCenterX;
+  protected int displayCenterY;
 
   private int displayX;
   private int displayY;
@@ -108,8 +108,8 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   // tile display
   private int tileX;
   private int tileY;
-  private int tileW;
-  private int tileH;
+  protected int tileW;
+  protected int tileH;
 
   private static final int[][] MOVES = { { 0, -1 }, { 0, +1 }, { -1, 0 }, { +1, 0 } };
   private static final int MOVE_UP = 0;
@@ -136,25 +136,25 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private KmlServicesHandler kmlServicesHandler;
   protected com.nutiteq.cache.Cache networkCache;
 
-  private final TasksRunner taskRunner;
+  protected final TasksRunner taskRunner;
 
-  private ScreenCache screenCache;
+  protected ScreenCache screenCache;
 
   private MapListener mapListener;
   private OnMapElementListener onMapElementListener;
   private ErrorListener errorListener;
 
-  private ImageBuffer mapBuffer;
-  private int mapBufferMoveX;
-  private int mapBufferMoveY;
+  protected ImageBuffer mapBuffer;
+  protected int mapBufferMoveX;
+  protected int mapBufferMoveY;
 
   private Image screenBuffer;
   private Graphics screenBufferGraphics;
 
-  private Image zoomBuffer;
+  protected Image zoomBuffer;
   private Graphics zoomBufferGraphics;
-  private int zoomBufferX;
-  private int zoomBufferY;
+  protected int zoomBufferX;
+  protected int zoomBufferY;
 
   private final Vector displayedElements = new Vector();
 
@@ -176,7 +176,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private final Timer timer;
   private RepaintTimerTask repaintTask;
 
-  private ZoomDelayTimerTask zoomDelay;
+  protected ZoomDelayTimerTask zoomDelay;
   private ZoomIndicator zoomLevelIndicator;
   //TODO jaanus : maybe can find a better way then tasks
   private ZoomIndicatorCheckTask indicatorCheck;
@@ -184,10 +184,10 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private long lastRepaintCallTime;
   private License license = License.LICENSE_CHECKING;
 
-  private boolean isMapComplete;
+  protected boolean isMapComplete;
   private long lastZoomCall;
 
-  private final Vector changedAreas = new Vector();
+  protected final Vector changedAreas = new Vector();
 
   protected LocationSource locationSource;
   private GeoMap[] tileSearchStrategy;
@@ -522,7 +522,6 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     paintPlaces(mapBuffer, displayedElements, changed, nextCentered);
 
     g.drawImage(mapBuffer.getFrontImage(), 0, 0, Graphics.TOP | Graphics.LEFT);
-
     //paint map copyright
     displayedMap.getCopyright().paint(g, displayWidth, displayHeight);
 
@@ -781,7 +780,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
    *          copy of the current map center
    * @param change
    */
-  private boolean paintTile(final Graphics g, final MapTile mt, final MapPos centerCopy,
+  protected boolean paintTile(final Graphics g, final MapTile mt, final MapPos centerCopy,
       final Rectangle change) {
     // search in screen cache
     int pos = screenCache.find(mt);
@@ -798,7 +797,6 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
             .getTileSize(), change.getX(), change.getY(), change.getWidth(), change.getHeight())) {
       screenCache.paint(g, pos, centerCopy, displayCenterX, displayCenterY);
     }
-
     return pos >= 0;
   }
 
@@ -1354,7 +1352,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   /**
    * Enqueue map tiles to download, in "radial" order.
    */
-  private void enqueueTiles() {
+  protected void enqueueTiles() {
     final int tileSize = displayedMap.getTileSize();
     for (int k = 0; k <= (tileW >> 1) + (tileH >> 1); k++) {
       for (int i = Math.max(0, k - (tileH >> 1)); i <= (tileW >> 1); i++) {
