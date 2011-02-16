@@ -12,7 +12,9 @@ public class RepaintHandler extends Handler {
 
   @Override
   public void handleMessage(final Message msg) {
-    mapView.invalidate();
+	if (mapView != null) { // already cleaned ?
+      mapView.invalidate();
+	}
     super.handleMessage(msg);
   }
 
