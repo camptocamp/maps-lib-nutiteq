@@ -2,5 +2,4 @@
 *.rej
 bin/
 gen/
-res/
 local.properties

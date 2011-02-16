@@ -824,7 +824,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     cleanMapBuffer();
     middlePoint = displayedMap.zoom(middlePoint, 1);
     tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
-    createZoomBufferAndUpdateScreen(1, true, true);
+    createZoomBufferAndUpdateScreen(1, true);
   }
 
   /**
@@ -838,7 +838,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     cleanMapBuffer();
     middlePoint = displayedMap.zoom(middlePoint, -1);
     tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
-    createZoomBufferAndUpdateScreen(1, true);
+    createZoomBufferAndUpdateScreen(1, true, true);
   }
 
   protected void createZoomBufferAndUpdateScreen(final double scale, final boolean needZoomDelay) {
