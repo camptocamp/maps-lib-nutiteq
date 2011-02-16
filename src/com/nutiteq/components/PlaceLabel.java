@@ -26,10 +26,11 @@ public class PlaceLabel implements Label {
    */
   public static final int DISPLAY_TOP = 3;
 
-  private final String label;
+  protected final String label;
   private final int displayStyle;
-  private Placemark icon;
-  private int lastZoom;
+  protected Placemark icon;
+  protected int lastZoom;
+
 
   /**
    * PlaceLabel constructor.
