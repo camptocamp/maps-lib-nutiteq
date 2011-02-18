@@ -1,5 +1,6 @@
 package com.nutiteq.task;
 
+import com.camptocamp.android.gis.providers.GoogleMapComponent.GoogleTileTask;
 import com.mgmaps.utils.Queue;
 import com.nutiteq.cache.Cache;
 import com.nutiteq.fs.FileSystem;
@@ -49,7 +50,25 @@ public class TasksRunnerImpl implements DownloadHandler, TasksRunner {
         return;
       }
       synchronized (worker) {
-        worker.notify();
+          try {
+              worker.notify();
+          }
+          catch (IllegalMonitorStateException e) {
+              try {
+                  Thread.sleep(20);
+              }
+              catch (InterruptedException e3) {
+                  e3.printStackTrace();
+              }
+              finally {
+                  try {
+                      worker.notify();
+                  }
+                  catch (IllegalMonitorStateException e2) {
+                      e2.printStackTrace();
+                  }
+              }
+          }
       }
     }
   }
