@@ -22,6 +22,7 @@ public class MemoryCache implements Cache {
   private int size;
   private static final float loadFactor = 0.9f;
   private static final int imageAvgSize = 25600; // Bytes
+  private int cacheSize;
 
   /**
    * Create a new MemoryCache instance.
@@ -30,21 +31,21 @@ public class MemoryCache implements Cache {
    *            cache size in bytes.
    */
   public MemoryCache(final int cs) {
-    final int cacheSize = (int) Math.ceil(cs / imageAvgSize / loadFactor) + 1;
-    cache = new LinkedHashMap<String, byte[]>(cacheSize, loadFactor, true) {
-      private static final long serialVersionUID = 1;
-      @Override protected boolean removeEldestEntry (Map.Entry<String, byte[]> eldest) {
-        if (size() > cacheSize) {
-          size -= eldest.getValue().length;
-          return true;
-        }
-        return false;
-      }
-    };
+      cacheSize = (int) Math.ceil(cs / imageAvgSize / loadFactor) + 1;
   }
 
   public void initialize() {
-
+      android.util.Log.e("TEST", "initialize()");
+      cache = new LinkedHashMap<String, byte[]>(cacheSize, loadFactor, true) {
+        private static final long serialVersionUID = 1;
+        @Override protected boolean removeEldestEntry (Map.Entry<String, byte[]> eldest) {
+          if (size() > cacheSize) {
+            size -= eldest.getValue().length;
+            return true;
+          }
+          return false;
+        }
+      };
   }
 
   public void deinitialize() {
