@@ -18,8 +18,7 @@ import java.util.Map.Entry;
  * </p>
  */
 public class MemoryCache implements Cache {
-//    private LinkedHashMap<String, SoftReference<byte[]>> cache;
-    private LinkedHashMap<String, byte[]> cache;
+  private LinkedHashMap<String, byte[]> cache;
   private int size;
   private static final float loadFactor = 0.9f;
   private static final int imageAvgSize = 25600; // Bytes
@@ -36,17 +35,12 @@ public class MemoryCache implements Cache {
   }
 
     public void initialize() {
-        // cache = new LinkedHashMap<String, SoftReference<byte[]>>(cacheSize,
-        // loadFactor, true) {
         cache = new LinkedHashMap<String, byte[]>(cacheSize, loadFactor, true) {
             private static final long serialVersionUID = 1;
 
-            // @Override protected boolean removeEldestEntry (Map.Entry<String,
-            // SoftReference<byte[]>> eldest) {
             @Override
             protected boolean removeEldestEntry(Map.Entry<String, byte[]> eldest) {
                 if (size() > cacheSize) {
-                    // size -= eldest.getValue().get().length;
                     size -= eldest.getValue().length;
                     return true;
                 }
@@ -63,7 +57,6 @@ public class MemoryCache implements Cache {
   }
 
   public byte[] get(final String cacheId) {
-//      return (cache.get(cacheId).get());
       return (cache.get(cacheId));
   }
 
@@ -72,7 +65,6 @@ public class MemoryCache implements Cache {
       return;
     }
     size += data.length;
-//    cache.put(cacheId, new SoftReference<byte[]>(data));
     cache.put(cacheId, data);
   }
 
@@ -96,8 +88,6 @@ public class MemoryCache implements Cache {
   }
 
   protected int getActualElementsSize() {
-//      final Collection<SoftReference<byte[]>> e = (Collection<SoftReference<byte[]>>) cache.values();
-//    final Iterator<SoftReference<byte[]>> i = e.iterator();
       final Collection<byte[]> e = (Collection<byte[]>) cache.values();
       final Iterator<byte[]> i = e.iterator();
     int result = 0;
@@ -111,8 +101,6 @@ public class MemoryCache implements Cache {
 
   protected CacheItem getMRU() {
     CacheItem ci = new CacheItem();
-//    Iterator<Entry<String, SoftReference<byte[]>>> i = cache.entrySet().iterator();
-//    Entry<String, SoftReference<byte[]>> e = null;
     Iterator<Entry<String, byte[]>> i = cache.entrySet().iterator();
     Entry<String, byte[]> e = null;
     while(i.hasNext()){
@@ -120,7 +108,6 @@ public class MemoryCache implements Cache {
     }
     ci.key = e.getKey();
     ci.data = e.getValue();
-//    ci.data = e.getValue().get();
     return ci;
   }
 }
