@@ -376,6 +376,7 @@ public class Tools {
   public static Image scaleImage05(final Image src, final double dif) {
     final int srcWidth = src.getWidth();
     final int srcHeight = src.getHeight();
+    android.util.Log.i("TEST", "dif="+dif);
     final int dstWidth = (int) Math.ceil(srcWidth / Math.pow(2, dif));
     final int dstHeight = (int) Math.ceil(srcHeight / Math.pow(2, dif));
 

@@ -9,6 +9,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.midlet.MIDlet;
 
+import com.camptocamp.android.gis.providers.SwisstopoMap;
 import com.mgmaps.cache.ScreenCache;
 import com.mgmaps.utils.Tools;
 import com.nutiteq.cache.Cache;
@@ -2345,13 +2346,15 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     } else if (newZoom < displayedMap.getMinZoom()) {
       dif = displayedMap.getMinZoom() - currentZoom;
     }
+    
     boolean zoomOut = false;
-    if(currentZoom>newZoom){
+    if (currentZoom > newZoom) {
         zoomOut = true;
     }
+    
     middlePoint = displayedMap.zoom(middlePoint, dif);
     tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
-    createZoomBufferAndUpdateScreen(dif, true, zoomOut);
+    createZoomBufferAndUpdateScreen(Math.log(dif) / Math.log(2), true, zoomOut);
   }
   
   /**
