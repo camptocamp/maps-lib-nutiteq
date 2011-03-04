@@ -9,7 +9,6 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.midlet.MIDlet;
 
-import com.camptocamp.android.gis.providers.SwisstopoMap;
 import com.mgmaps.cache.ScreenCache;
 import com.mgmaps.utils.Tools;
 import com.nutiteq.cache.Cache;
