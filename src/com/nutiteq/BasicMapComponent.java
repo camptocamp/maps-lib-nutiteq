@@ -2345,12 +2345,15 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     } else if (newZoom < displayedMap.getMinZoom()) {
       dif = displayedMap.getMinZoom() - currentZoom;
     }
-
+    boolean zoomOut = false;
+    if(currentZoom>newZoom){
+        zoomOut = true;
+    }
     middlePoint = displayedMap.zoom(middlePoint, dif);
     tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
-    createZoomBufferAndUpdateScreen(-dif, true);
+    createZoomBufferAndUpdateScreen(dif, true, zoomOut);
   }
-
+  
   /**
    * Set cursor used on screen for places selection, etc.
    * 
