@@ -8,31 +8,33 @@ import java.util.Map.Entry;
 
 /**
  * <p>
- * Memory cache implementing LRU (least recently used) strategy. If cache is
- * full, least recently used items will be pushed out.
+ * Memory cache implementing LRU (least recently used) strategy. If cache is full, least recently
+ * used items will be pushed out.
  * </p>
  * 
  * <p>
- * Current implementation uses only actual data size. Objects/keys overhead is
- * not calculated in cache size.
+ * Current implementation uses only actual data size. Objects/keys overhead is not calculated in
+ * cache size.
  * </p>
  */
 public class MemoryCache implements Cache {
-  private LinkedHashMap<String, byte[]> cache;
-  private int size;
-  private static final float loadFactor = 0.9f;
-  private static final int imageAvgSize = 25600; // Bytes
-  private final int cacheSize;
 
-  /**
-   * Create a new MemoryCache instance.
-   * 
-   * @param cacheSize
-   *            cache size in bytes.
-   */
-  public MemoryCache(final int cs) {
-      cacheSize = (int) Math.ceil(cs / imageAvgSize / loadFactor) + 1;
-  }
+    private LinkedHashMap<String, byte[]> cache;
+    private static final float loadFactor = 0.9f;
+    private static final int imageAvgSize = 25600; // Bytes
+
+    protected final int cacheSize;
+    protected int size;
+
+    /**
+     * Create a new MemoryCache instance.
+     * 
+     * @param cacheSize
+     *            cache size in bytes.
+     */
+    public MemoryCache(final int cs) {
+        cacheSize = (int) Math.ceil(cs / imageAvgSize / loadFactor) + 1;
+    }
 
     public void initialize() {
         cache = new LinkedHashMap<String, byte[]>(cacheSize, loadFactor, true) {
@@ -49,65 +51,66 @@ public class MemoryCache implements Cache {
         };
     }
 
-  public void deinitialize() {
-    if (cache != null) {
-      cache.clear();
+    public void deinitialize() {
+        if (cache != null) {
+            cache.clear();
+        }
+        cache = null;
     }
-    cache = null;
-  }
 
-  public byte[] get(final String cacheId) {
-      return (cache.get(cacheId));
-  }
-
-  public void cache(final String cacheId, final byte[] data, final int cacheLevel) {
-    if ((cacheLevel & CACHE_LEVEL_MEMORY) != CACHE_LEVEL_MEMORY || data == null || data.length == 0) {
-      return;
+    public byte[] get(final String cacheId) {
+        return (cache.get(cacheId));
     }
-    size += data.length;
-    cache.put(cacheId, data);
-  }
 
-  public boolean contains(final String cacheKey) {
-    if (cache == null) {
-      return false;
+    public void cache(final String cacheId, final byte[] data, final int cacheLevel) {
+        if ((cacheLevel & CACHE_LEVEL_MEMORY) != CACHE_LEVEL_MEMORY || data == null
+                || data.length == 0) {
+            return;
+        }
+        size += data.length;
+        cache.put(cacheId, data);
     }
-    return cache.containsKey(cacheKey);
-  }
 
-  public boolean contains(final String cacheKey, final int cacheLevel) {
-    if ((cacheLevel & CACHE_LEVEL_MEMORY) != CACHE_LEVEL_MEMORY) {
-      return false;
+    public boolean contains(final String cacheKey) {
+        if (cache == null) {
+            return false;
+        }
+        return cache.containsKey(cacheKey);
     }
-    return contains(cacheKey);
-  }
 
-  // TEST METHODS
-  protected int getCalculatedSize() {
-    return size;
-  }
-
-  protected int getActualElementsSize() {
-      final Collection<byte[]> e = (Collection<byte[]>) cache.values();
-      final Iterator<byte[]> i = e.iterator();
-    int result = 0;
-    while (i.hasNext()) {
-//        final byte[] item = i.next().get();
-        final byte[] item = i.next();
-        result += item.length;
+    public boolean contains(final String cacheKey, final int cacheLevel) {
+        if ((cacheLevel & CACHE_LEVEL_MEMORY) != CACHE_LEVEL_MEMORY) {
+            return false;
+        }
+        return contains(cacheKey);
     }
-    return result;
-  }
 
-  protected CacheItem getMRU() {
-    CacheItem ci = new CacheItem();
-    Iterator<Entry<String, byte[]>> i = cache.entrySet().iterator();
-    Entry<String, byte[]> e = null;
-    while(i.hasNext()){
-        e = i.next();
+    // TEST METHODS
+    protected int getCalculatedSize() {
+        return size;
     }
-    ci.key = e.getKey();
-    ci.data = e.getValue();
-    return ci;
-  }
+
+    protected int getActualElementsSize() {
+        final Collection<byte[]> e = (Collection<byte[]>) cache.values();
+        final Iterator<byte[]> i = e.iterator();
+        int result = 0;
+        while (i.hasNext()) {
+            // final byte[] item = i.next().get();
+            final byte[] item = i.next();
+            result += item.length;
+        }
+        return result;
+    }
+
+    protected CacheItem getMRU() {
+        CacheItem ci = new CacheItem();
+        Iterator<Entry<String, byte[]>> i = cache.entrySet().iterator();
+        Entry<String, byte[]> e = null;
+        while (i.hasNext()) {
+            e = i.next();
+        }
+        ci.key = e.getKey();
+        ci.data = e.getValue();
+        return ci;
+    }
 }
