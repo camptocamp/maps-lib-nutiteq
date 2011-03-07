@@ -123,4 +123,9 @@ public class RetrieveNetworkResourceTask extends NetworkTask implements Download
   public void notifyError() {
     downloadable.notifyError();
   }
+  
+  @Override
+  public String toString() {
+    return "RetrieveNetworkResourceTask: downloadable.resourcePath()=" + downloadable.resourcePath() + ".";
+  }
 }

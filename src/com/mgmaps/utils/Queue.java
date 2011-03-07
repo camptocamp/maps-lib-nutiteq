@@ -156,4 +156,23 @@ public class Queue {
   public synchronized Object get(int i) {
     return elements[i];
   }
+
+  @Override
+  public String toString() {
+      StringBuffer result = new StringBuffer("Queue: [");
+      boolean first = true;
+      
+      for (int i = 0 ; i < count ; i++) {
+          if (first) {
+              first = false;
+          }
+          else {
+              result.append(",\n");
+          }
+          result.append(elements[i]);
+      }
+      
+      result.append("]");
+      return result.toString();
+  }
 }
