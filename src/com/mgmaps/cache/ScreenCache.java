@@ -68,27 +68,27 @@ public class ScreenCache {
    *          new size (number of tiles)
    */
   public void resize(final int n) {
-    final int minSize = Math.min(size, n);
+//    final int minSize = Math.min(size, n);
     size = n;
-    final boolean cond = minSize > 0;
+//    final boolean cond = minSize > 0;
 
-    final boolean[] oldValid = valid;
+//    final boolean[] oldValid = valid;
     valid = new boolean[size];
-    if (cond) {
-      System.arraycopy(oldValid, 0, valid, 0, minSize);
-    }
+//    if (cond) {
+//      System.arraycopy(oldValid, 0, valid, 0, minSize);
+//    }
 
-    final Image[] oldImages = images;
+//    final Image[] oldImages = images;
     images = new Image[size];
-    if (cond) {
-      System.arraycopy(oldImages, 0, images, 0, minSize);
-    }
+//    if (cond) {
+//      System.arraycopy(oldImages, 0, images, 0, minSize);
+//    }
 
-    final MapTile[] oldTiles = tiles;
+//    final MapTile[] oldTiles = tiles;
     tiles = new MapTile[size];
-    if (cond) {
-      System.arraycopy(oldTiles, 0, tiles, 0, minSize);
-    }
+//    if (cond) {
+//      System.arraycopy(oldTiles, 0, tiles, 0, minSize);
+//    }
   }
 
   /**
@@ -153,6 +153,9 @@ public class ScreenCache {
       if (!valid[i] || t.equals(tiles[i])) {
         valid[i] = true;
         tiles[i] = t;
+        if (images[i] != null) {
+            images[i].getBitmap().recycle();
+        }
         //BattleTac code starts
         //Modified by Krisztian Schaffer, 2010.02.26
         Image image = t.getImage();
@@ -181,10 +184,13 @@ public class ScreenCache {
       if (!valid[i]) {
         continue;
       }
+      // if found, do not remove it
       if (tiles[i].equals(t)) {
         found = i;
       } else if (!tiles[i].isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
-        // if found, do not remove it
+        if(images[i]!=null){
+            images[i].getBitmap().recycle();
+        }
         valid[i] = false;
         tiles[i] = null;
         images[i] = null;
@@ -206,6 +212,9 @@ public class ScreenCache {
   public void setImageProcessor(final ImageProcessor processor) {
     imageProcessor = processor;
     for (int i = 0; i < size; i++) {
+      if (images[i] != null) {
+        images[i].getBitmap().recycle();
+      }
       valid[i] = false;
       tiles[i] = null;
       images[i] = null;
@@ -226,6 +235,9 @@ public class ScreenCache {
   public void renewTileImages() {
     for(int i=0; i < size; i++) {
       if( valid[i] && tiles[i] != null ) {
+        if (images[i] != null) {
+          images[i].getBitmap().recycle();
+        }
         images[i] = tiles[i].getImage();
       }
     }

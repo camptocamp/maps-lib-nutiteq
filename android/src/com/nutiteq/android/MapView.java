@@ -46,7 +46,7 @@ private BasicMapComponent mapComponent;
       wrapped = canvas;
       g = new Graphics(wrapped);
       //TODO jaanus : what happens on size change
-      mapComponent.resize(getWidth(), getHeight());
+       mapComponent.resize(getWidth(), getHeight());
     }
     mapComponent.paint(g);
   }
