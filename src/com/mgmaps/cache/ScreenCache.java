@@ -107,9 +107,13 @@ public class ScreenCache {
       Log.debug(">>>>>>>>>>>>>>>>>>>>>>> SC: null image!");
       images[i] = tiles[i].getMap().getMissingTileImage();
     }
-    final int left = tiles[i].getX() - centerCopy.getX() + screenCenterX;
-    final int top = tiles[i].getY() - centerCopy.getY() + screenCenterY;
-    g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
+    if(valid[i]){
+        final int left = tiles[i].getX() - centerCopy.getX() + screenCenterX;
+        final int top = tiles[i].getY() - centerCopy.getY() + screenCenterY;
+        g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
+    } else {
+        images[i] = tiles[i].getMap().getMissingTileImage();
+    }
   }
 
   /**

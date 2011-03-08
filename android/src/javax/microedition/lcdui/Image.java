@@ -16,7 +16,10 @@ public class Image {
 
   public static Image createImage(final byte[] imageData, final int imageOffset,
       final int imageLength) {
-    final Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, imageOffset, imageLength);
+    final BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inDither = true;
+    options.inPurgeable = true;
+    final Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, imageOffset, imageLength, options);
     return new Image(bitmap);
   }
 
@@ -27,7 +30,7 @@ public class Image {
   }
 
   public static Image createImage(final int width, final int height) {
-    final Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+    final Bitmap bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
     return new Image(bitmap);
   }
 
