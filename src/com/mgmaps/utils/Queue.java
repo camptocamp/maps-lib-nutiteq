@@ -159,7 +159,8 @@ public class Queue {
 
   @Override
   public String toString() {
-      StringBuffer result = new StringBuffer("Queue: [");
+      StringBuffer result = new StringBuffer(super.toString());
+      result.append(": [");
       boolean first = true;
       
       for (int i = 0 ; i < count ; i++) {
