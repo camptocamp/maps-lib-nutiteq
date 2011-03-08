@@ -2490,6 +2490,17 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   }
 
   /**
+   * Get cache of networking.
+   * 
+   * @return cache
+   */
+  public void cleanNetworkCache() {
+      networkCache.deinitialize();
+      System.gc();
+      networkCache.initialize();
+  }
+
+  /**
    * Not part of public API
    */
   public MapPos getMapPosition(final WgsPoint wgsLocation) {
@@ -2641,6 +2652,22 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     final Place[] result = new Place[visible.size()];
     visible.copyInto(result);
     return result;
+  }
+
+  /**
+   * Get the opened label
+   * @return centeredElement
+   */
+  public OnMapElement getCenteredElement() {
+      return centeredElement;
+  }
+
+  /**
+   * Open a label
+   * @param centeredElement
+   */
+  public void setCenteredElement(OnMapElement centeredElement) {
+      this.centeredElement = centeredElement;
   }
 
   /**
