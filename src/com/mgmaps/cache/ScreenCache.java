@@ -186,9 +186,9 @@ public class ScreenCache {
         found = i;
       } else if (!tiles[i].isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
         valid[i] = false;
-        if (images[i] != null) {
-            images[i].getBitmap().recycle();
-        }
+//        if (images[i] != null) {
+//            images[i].getBitmap().recycle();
+//        }
         tiles[i] = null;
         images[i] = null;
       }

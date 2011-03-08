@@ -21,28 +21,26 @@ public class MemoryCache implements Cache {
 
     private LinkedHashMap<String, byte[]> cache;
     private static final float loadFactor = 0.9f;
-    private static final int imageAvgSize = 25600; // Bytes
-
-    protected final int cacheSize;
-    protected int size;
+    private final int mCacheSize;
+    private int size;
 
     /**
      * Create a new MemoryCache instance.
      * 
-     * @param cacheSize
-     *            cache size in bytes.
+     * @param mCacheSize
+     *            cache size in element number.
      */
     public MemoryCache(final int cs) {
-        cacheSize = (int) Math.ceil(cs / imageAvgSize / loadFactor) + 1;
+        mCacheSize = cs;
     }
 
     public void initialize() {
-        cache = new LinkedHashMap<String, byte[]>(cacheSize, loadFactor, true) {
+        cache = new LinkedHashMap<String, byte[]>(mCacheSize + 1, loadFactor, true) {
             private static final long serialVersionUID = 1;
 
             @Override
             protected boolean removeEldestEntry(Map.Entry<String, byte[]> eldest) {
-                if (size() > cacheSize) {
+                if (size() > mCacheSize) {
                     size -= eldest.getValue().length;
                     return true;
                 }
@@ -68,7 +66,7 @@ public class MemoryCache implements Cache {
             return;
         }
         size += data.length;
-        synchronized (cache){
+        synchronized (cache) {
             cache.put(cacheId, data);
         }
     }
@@ -97,7 +95,6 @@ public class MemoryCache implements Cache {
         final Iterator<byte[]> i = e.iterator();
         int result = 0;
         while (i.hasNext()) {
-            // final byte[] item = i.next().get();
             final byte[] item = i.next();
             result += item.length;
         }

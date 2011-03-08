@@ -21,7 +21,7 @@ public class Image {
     options.inDither = true;
     options.inPurgeable = true;
     options.inPreferredConfig = Config.RGB_565; // Probably not used as ARGB_8888 has already been set
-    options.inDensity = DisplayMetrics.DENSITY_DEFAULT; // FIXME: must be dynamic
+    options.inDensity = new DisplayMetrics().densityDpi;
     final Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, imageOffset, imageLength, options);
     return new Image(bitmap);
   }
