@@ -19,6 +19,7 @@ public class Image {
     final BitmapFactory.Options options = new BitmapFactory.Options();
     options.inDither = true;
     options.inPurgeable = true;
+    options.inPreferredConfig = Config.RGB_565;
     final Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, imageOffset, imageLength, options);
     return new Image(bitmap);
   }
