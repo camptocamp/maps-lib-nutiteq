@@ -6,6 +6,7 @@ import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
+import android.util.DisplayMetrics;
 
 public class Image {
   private final Bitmap bitmap;
@@ -19,7 +20,8 @@ public class Image {
     final BitmapFactory.Options options = new BitmapFactory.Options();
     options.inDither = true;
     options.inPurgeable = true;
-    options.inPreferredConfig = Config.RGB_565;
+    options.inPreferredConfig = Config.RGB_565; // Probably not used as ARGB_8888 has already been set
+    options.inDensity = DisplayMetrics.DENSITY_DEFAULT; // FIXME: must be dynamic
     final Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, imageOffset, imageLength, options);
     return new Image(bitmap);
   }
@@ -31,8 +33,7 @@ public class Image {
   }
 
   public static Image createImage(final int width, final int height) {
-    final Bitmap bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
-    return new Image(bitmap);
+    return new Image(Bitmap.createBitmap(width, height, Config.ARGB_8888));
   }
 
   public static Image createImage(final String name) throws java.io.IOException {
@@ -51,7 +52,6 @@ public class Image {
       }else{
           conf = Bitmap.Config.RGB_565;
       }
-      
       final Bitmap tmp = Bitmap.createBitmap(imageData,width,height,conf);
       return new Image(tmp);
   }
