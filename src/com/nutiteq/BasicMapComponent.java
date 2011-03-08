@@ -2655,6 +2655,22 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   }
 
   /**
+   * Get the opened label
+   * @return centeredElement
+   */
+  public OnMapElement getCenteredElement() {
+      return centeredElement;
+  }
+
+  /**
+   * Open a label
+   * @param centeredElement
+   */
+  public void setCenteredElement(OnMapElement centeredElement) {
+      this.centeredElement = centeredElement;
+  }
+
+  /**
    * Set file system to be used for {@link com.nutiteq.maps.StoredMap} handling
    * 
    * @param fs
