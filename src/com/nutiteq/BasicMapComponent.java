@@ -2352,7 +2352,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     
     middlePoint = displayedMap.zoom(middlePoint, dif);
     tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
-    createZoomBufferAndUpdateScreen(Math.log(dif) / Math.log(2), true, zoomOut);
+    createZoomBufferAndUpdateScreen(Utils.log2(dif), true, zoomOut);
   }
   
   /**

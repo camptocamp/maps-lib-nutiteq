@@ -68,7 +68,9 @@ public class MemoryCache implements Cache {
             return;
         }
         size += data.length;
-        cache.put(cacheId, data);
+        synchronized (cache){
+            cache.put(cacheId, data);
+        }
     }
 
     public boolean contains(final String cacheKey) {

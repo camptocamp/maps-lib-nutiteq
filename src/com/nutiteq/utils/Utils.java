@@ -181,7 +181,7 @@ public class Utils {
         return i;
       }
     }
-    throw new IllegalArgumentException("Do not know the log2 from " + x);
+    return (int) (Math.log(x) / Math.log(2));
   }
 
   public static Image resizeImageAndCopyPrevious(final int newWidth, final int newHeight, final Image resized) {
