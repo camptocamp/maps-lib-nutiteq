@@ -151,11 +151,13 @@ public class MapTile {
     final int areaParamIndex = tileUrl.indexOf("|a=");
 
     try {
+      Image tmp;
       final int tileSize = map.getTileSize();
       final Image tileImage = Image.createImage(tileSize, tileSize);
       final Graphics imageGraphics = tileImage.getGraphics();
-      for (int i = 0; i < imageData.length; i++) {
-        Image tmp = Image.createImage(imageData[i], 0, imageData[i].length);
+      int len = imageData.length;
+      for (int i = 0; i < len; i++) {
+        tmp = Image.createImage(imageData[i], 0, imageData[i].length);
         if (areaParamIndex > 0) {
           final String areaParam = tileUrl.substring(areaParamIndex + 3);
           if ("0,0".equals(areaParam)) {
@@ -174,7 +176,7 @@ public class MapTile {
 
       if (overlayData != null) {
         for (int i = 0; i < overlayData.length; i++) {
-          final Image tmp = Image.createImage(overlayData[i], 0, overlayData[i].length);
+          tmp = Image.createImage(overlayData[i], 0, overlayData[i].length);
           imageGraphics.drawImage(tmp, 0, 0, Graphics.TOP | Graphics.LEFT);
           tmp.getBitmap().recycle();
         }
