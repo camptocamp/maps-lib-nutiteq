@@ -2490,6 +2490,17 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   }
 
   /**
+   * Get cache of networking.
+   * 
+   * @return cache
+   */
+  public void cleanNetworkCache() {
+      networkCache.deinitialize();
+      System.gc();
+      networkCache.initialize();
+  }
+
+  /**
    * Not part of public API
    */
   public MapPos getMapPosition(final WgsPoint wgsLocation) {

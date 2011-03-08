@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,6 +43,18 @@ private BasicMapComponent mapComponent;
 
   @Override
   protected void onDraw(final Canvas canvas) {
+    try {
+      doDraw(canvas);
+    }
+    catch (OutOfMemoryError e) {
+      Log.e("MapView", e.getClass().getCanonicalName() + ": " + e.getMessage());
+      e.printStackTrace();
+      mapComponent.cleanNetworkCache();
+      doDraw(canvas);
+    }
+  }
+
+protected void doDraw(final Canvas canvas) {
     if (wrapped != canvas) {
       wrapped = canvas;
       g = new Graphics(wrapped);
@@ -49,10 +62,22 @@ private BasicMapComponent mapComponent;
        mapComponent.resize(getWidth(), getHeight());
     }
     mapComponent.paint(g);
-  }
+}
 
   public boolean onTouchEvent(final MotionEvent event) {
-      //System.out.println("touch event action="+event.getAction());
+    try {
+      return doTouchEvent(event);
+    }
+    catch (OutOfMemoryError e) {
+      Log.e("MapView", e.getClass().getCanonicalName() + ": " + e.getMessage());
+      e.printStackTrace();
+      mapComponent.cleanNetworkCache();
+      return doTouchEvent(event);
+    }
+  }
+
+protected boolean doTouchEvent(final MotionEvent event) {
+    //System.out.println("touch event action="+event.getAction());
       boolean hasMultiTouch = Integer.parseInt(Build.VERSION.SDK) >= 5;
       int nPointer = hasMultiTouch ? MotionEventWrap.getPointerCount(event) : 1;
       
@@ -127,8 +152,7 @@ private BasicMapComponent mapComponent;
 
           }
           return true;
-      
-  }
+}
   
   
   @Override
