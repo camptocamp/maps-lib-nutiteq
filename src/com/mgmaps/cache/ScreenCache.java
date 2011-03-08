@@ -153,9 +153,6 @@ public class ScreenCache {
       if (!valid[i] || t.equals(tiles[i])) {
         valid[i] = true;
         tiles[i] = t;
-        if (images[i] != null) {
-            images[i].getBitmap().recycle();
-        }
         //BattleTac code starts
         //Modified by Krisztian Schaffer, 2010.02.26
         Image image = t.getImage();
@@ -188,10 +185,10 @@ public class ScreenCache {
       if (tiles[i].equals(t)) {
         found = i;
       } else if (!tiles[i].isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
-        if(images[i]!=null){
+        valid[i] = false;
+        if (images[i] != null) {
             images[i].getBitmap().recycle();
         }
-        valid[i] = false;
         tiles[i] = null;
         images[i] = null;
       }
@@ -211,14 +208,14 @@ public class ScreenCache {
    */
   public void setImageProcessor(final ImageProcessor processor) {
     imageProcessor = processor;
-    for (int i = 0; i < size; i++) {
-      if (images[i] != null) {
-        images[i].getBitmap().recycle();
-      }
-      valid[i] = false;
-      tiles[i] = null;
-      images[i] = null;
-    }
+//    for (int i = 0; i < size; i++) {
+//      valid[i] = false;
+//      if (images[i] != null) {
+//        images[i].getBitmap().recycle();
+//      }
+//      tiles[i] = null;
+//      images[i] = null;
+//    }
   }
   //BattleTac code ends
 

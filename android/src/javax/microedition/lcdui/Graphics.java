@@ -69,7 +69,7 @@ public class Graphics {
 
   public void drawRGB(final int[] rgbData, final int offset, final int scanlength, final int x,
       final int y, final int width, final int height, final boolean processAlpha) {
-    final Bitmap drawn = Bitmap.createBitmap(rgbData, width, height, Config.ARGB_8888);
+    final Bitmap drawn = Bitmap.createBitmap(rgbData, width, height, Config.RGB_565);
     canvas.drawBitmap(drawn, x, y, null);
   }
 
