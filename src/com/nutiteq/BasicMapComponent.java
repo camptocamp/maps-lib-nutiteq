@@ -31,6 +31,7 @@ import com.nutiteq.components.WgsPoint;
 import com.nutiteq.components.ZoomRange;
 import com.nutiteq.controls.ControlKeys;
 import com.nutiteq.controls.ControlKeysHandler;
+import com.nutiteq.controls.NutiteqOnScreenZoomControls;
 import com.nutiteq.controls.OnScreenZoomControls;
 import com.nutiteq.controls.UserDefinedKeysMapping;
 import com.nutiteq.core.MappingCore;
@@ -1153,10 +1154,10 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     final int controlAction = getPossibleControlAction(componentX, componentY);
     if (controlAction != -1) {
       switch (controlAction) {
-      case OnScreenZoomControls.CONTROL_ZOOM_IN:
+      case NutiteqOnScreenZoomControls.CONTROL_ZOOM_IN:
         zoomIn();
         break;
-      case OnScreenZoomControls.CONTROL_ZOOM_OUT:
+      case NutiteqOnScreenZoomControls.CONTROL_ZOOM_OUT:
         zoomOut();
         break;
       }

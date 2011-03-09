@@ -246,6 +246,8 @@ public class Utils {
   public static Image createImage(final String image) {
     try {
       return Image.createImage(image);
+    } catch (VerifyError e){
+        return null;
     } catch (final IOException e) {
       Log.debug("createImage '" + image + "': " + e.getMessage());
       Log.printStackTrace(e);

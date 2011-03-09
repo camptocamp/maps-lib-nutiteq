@@ -6,7 +6,7 @@ import com.nutiteq.cache.CachingChain;
 import com.nutiteq.cache.MemoryCache;
 import com.nutiteq.cache.RmsCache;
 import com.nutiteq.components.WgsPoint;
-import com.nutiteq.controls.OnScreenZoomControls;
+import com.nutiteq.controls.NutiteqOnScreenZoomControls;
 import com.nutiteq.license.LicenseKeyCheck;
 import com.nutiteq.maps.MapTilesRequestor;
 import com.nutiteq.maps.NutiteqStreamedMap;
@@ -149,8 +149,8 @@ public class MapComponent extends BasicMapComponent implements MapTilesRequestor
    * with image '/images/m-l-controlls.png' from library resources.
    */
   public void showDefaultOnScreenZoomControls() {
-    setOnScreenZoomControls(new OnScreenZoomControls(Utils
-        .createImage(OnScreenZoomControls.DEFAULT_ZOOM_IMAGE)));
+    setOnScreenZoomControls(new NutiteqOnScreenZoomControls(Utils
+        .createImage(NutiteqOnScreenZoomControls.DEFAULT_ZOOM_IMAGE)));
   }
 
   /**
