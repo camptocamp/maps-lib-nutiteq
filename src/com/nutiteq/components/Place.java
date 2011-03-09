@@ -204,27 +204,24 @@ public class Place implements OnMapElement {
             Log.debug("placeMark " + this.getName());
             Log.debug("mapPosition " + mapPosition + " middlePoint "
                     + middlePoint + " " + middlePoint);
-            int diffx = mapPosition.getX() - middlePoint.getX();
-            int diffy = mapPosition.getY() - middlePoint.getY();
-            Log.debug("diffx " + diffx + " y " + diffy);
+            // int diffx = mapPosition.getX() - middlePoint.getX();
+            // int diffy = mapPosition.getY() - middlePoint.getY();
+            // Log.debug("diffx " + diffx + " y " + diffy);
+            // if ((Math.abs(diffx) < CLICK_BOX_SIZE)
+            // && (Math.abs(diffy) < CLICK_BOX_SIZE)) {
+            // Log.debug("Clicked " + this.getName());
+            // return true;
+            // } else {
+            // Log.debug("NOT clicked " + this.getName());
+            // }
 
-            if ((Math.abs(diffx) < CLICK_BOX_SIZE)
-                    && (Math.abs(diffy) < CLICK_BOX_SIZE)) {
-                Log.debug("Clicked " + this.getName());
-                return true;
-            } else {
-                Log.debug("NOT clicked " + this.getName());
-            }
-
-            // return Utils.rectanglesIntersect(middlePoint.getX(),
-            // middlePoint.getY(), CLICK_BOX_SIZE, CLICK_BOX_SIZE, mapPosition
-            // .getX()
-            // - defaultPlacemark.getAnchorX(middlePoint.getZoom()),
-            // mapPosition.getY()
-            // - defaultPlacemark.getAnchorY(middlePoint.getZoom()),
-            // defaultPlacemark
-            // .getWidth(middlePoint.getZoom()),
-            // defaultPlacemark.getHeight(middlePoint.getZoom()));
+            return Utils.rectanglesIntersect(middlePoint.getX(), middlePoint.getY(),
+                    CLICK_BOX_SIZE, CLICK_BOX_SIZE, mapPosition.getX()
+                            - defaultPlacemark.getAnchorX(middlePoint.getZoom()), mapPosition
+                            .getY()
+                            - defaultPlacemark.getAnchorY(middlePoint.getZoom()), defaultPlacemark
+                            .getWidth(middlePoint.getZoom()), defaultPlacemark
+                            .getHeight(middlePoint.getZoom()));
         }
 
         if (elements != null && elements.length > 0) {

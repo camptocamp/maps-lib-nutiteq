@@ -14,10 +14,12 @@ public class Font {
   public static final int SIZE_MEDIUM = 0;
   public static final int SIZE_SMALL = 8;
   public static final int SIZE_LARGE = 16;
+  public static final int SIZE_HUGE = 24;
 
   private static final int TEXT_SIZE_SMALL = 10;
   private static final int TEXT_SIZE_MEDIUM = 16;
   private static final int TEXT_SIZE_LARGE = 22;
+  private static final int TEXT_SIZE_HUGE = SIZE_HUGE;
 
   public static final int STYLE_PLAIN = 0;
   public static final int STYLE_BOLD = 1;
@@ -57,9 +59,12 @@ public class Font {
       throw new IllegalArgumentException("unknown face " + face);
     }
     switch (size) {
+    case SIZE_HUGE:
+        textSize = TEXT_SIZE_HUGE;
+        break;
     case SIZE_LARGE:
-      textSize = TEXT_SIZE_LARGE;
-      break;
+        textSize = TEXT_SIZE_LARGE;
+        break;
     case SIZE_SMALL:
       textSize = TEXT_SIZE_SMALL;
       break;
