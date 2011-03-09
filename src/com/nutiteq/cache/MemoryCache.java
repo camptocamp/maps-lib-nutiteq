@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 public class MemoryCache implements Cache {
 
     private LinkedHashMap<String, byte[]> cache;
-    private static final float loadFactor = 0.9f;
+    private static final float loadFactor = 1.1f;
     private final int mCacheSize;
     private int size;
 
