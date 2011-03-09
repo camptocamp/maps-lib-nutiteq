@@ -44,25 +44,21 @@ private BasicMapComponent mapComponent;
   @Override
   protected void onDraw(final Canvas canvas) {
     try {
-      doDraw(canvas);
+        if (wrapped != canvas) {
+            wrapped = canvas;
+            g = new Graphics(wrapped);
+            //TODO jaanus : what happens on size change
+             mapComponent.resize(getWidth(), getHeight());
+          }
+          mapComponent.paint(g);
     }
     catch (OutOfMemoryError e) {
       Log.e("MapView", e.getClass().getCanonicalName() + ": " + e.getMessage());
       e.printStackTrace();
       mapComponent.cleanNetworkCache();
-      doDraw(canvas);
+      mapComponent.panMap(0, 0);
     }
   }
-
-protected void doDraw(final Canvas canvas) {
-    if (wrapped != canvas) {
-      wrapped = canvas;
-      g = new Graphics(wrapped);
-      //TODO jaanus : what happens on size change
-       mapComponent.resize(getWidth(), getHeight());
-    }
-    mapComponent.paint(g);
-}
 
   public boolean onTouchEvent(final MotionEvent event) {
     try {
@@ -72,6 +68,7 @@ protected void doDraw(final Canvas canvas) {
       Log.e("MapView", e.getClass().getCanonicalName() + ": " + e.getMessage());
       e.printStackTrace();
       mapComponent.cleanNetworkCache();
+      mapComponent.panMap(0, 0);
       return doTouchEvent(event);
     }
   }
@@ -194,7 +191,7 @@ protected boolean doTouchEvent(final MotionEvent event) {
     }
 
     if (repaintHandler != null) {
-      repaintHandler.sendMessage(new Message());
+      repaintHandler.sendMessage(Message.obtain());
     }
   }
 

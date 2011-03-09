@@ -68,27 +68,27 @@ public class ScreenCache {
    *          new size (number of tiles)
    */
   public void resize(final int n) {
-//    final int minSize = Math.min(size, n);
+    final int minSize = Math.min(size, n);
+    final boolean cond = minSize > 0;
     size = n;
-//    final boolean cond = minSize > 0;
 
-//    final boolean[] oldValid = valid;
-    valid = new boolean[size];
-//    if (cond) {
-//      System.arraycopy(oldValid, 0, valid, 0, minSize);
-//    }
+    valid = new boolean[n];
+    if (cond) {
+      final boolean[] oldValid = valid;
+      System.arraycopy(oldValid, 0, valid, 0, minSize);
+    }
 
-//    final Image[] oldImages = images;
-    images = new Image[size];
-//    if (cond) {
-//      System.arraycopy(oldImages, 0, images, 0, minSize);
-//    }
+    images = new Image[n];
+    if (cond) {
+      final Image[] oldImages = images;
+      System.arraycopy(oldImages, 0, images, 0, minSize);
+    }
 
-//    final MapTile[] oldTiles = tiles;
-    tiles = new MapTile[size];
-//    if (cond) {
-//      System.arraycopy(oldTiles, 0, tiles, 0, minSize);
-//    }
+    tiles = new MapTile[n];
+    if (cond) {
+      final MapTile[] oldTiles = tiles;
+      System.arraycopy(oldTiles, 0, tiles, 0, minSize);
+    }
   }
 
   /**
