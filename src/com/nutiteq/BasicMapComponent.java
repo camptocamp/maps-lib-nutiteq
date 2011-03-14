@@ -463,97 +463,59 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   }
 
   /**
-   * Paint the map component. As default view will be painted to 0, 0 on
-   * graphics object. This can be changed with
-   * {@link #setScreenPosition(int, int)}
+   * Paint the map component.
    * 
    * @param g
    *          graphics object provided by implementing application
    */
   public void paint(final Graphics g) {
-    paintAt(g, displayX, displayY);
-  }
-
-  /**
-   * Paint map view to give position on screen
-   * 
-   * @param g
-   *          graphics object to paint on
-   * @param paintX
-   *          screen position x
-   * @param paintY
-   *          screen position y
-   */
-  public void paintAt(final Graphics g, final int paintX, final int paintY) {
-    if (g == null || mapBuffer == null) {
-      return;
-    }
-
-    if (!license.isValid()) {
-      g.setClip(paintX, paintY, displayWidth, displayHeight);
-      g.setColor(0xFFFFFFFF);
-      g.fillRect(paintX, paintY, displayWidth, displayHeight);
-      final Font font = Font.getDefaultFont();
-      final int textX = (displayWidth - font.stringWidth(license.getMessage())) / 2;
-      final int textY = (displayHeight - font.getHeight()) / 2;
-      g.setColor(0xFFFF0000);
-      g.drawString(license.getMessage(), textX > 0 ? textX : 0, textY > 0 ? textY : 0, Graphics.TOP
-          | Graphics.LEFT);
-      return;
-    }
-
-//    paintScreen(screenBufferGraphics);
-//    g.setClip(paintX, paintY, displayWidth, displayHeight);
-//    g.drawImage(screenBuffer, paintX, paintY, Graphics.TOP | Graphics.LEFT);
-
-    paintScreen(mapBuffer.getFrontGraphics());
-    g.setClip(paintX, paintY, displayWidth, displayHeight);
-    g.drawImage(mapBuffer.getFrontImage(), paintX, paintY, Graphics.TOP | Graphics.LEFT);
-  }
-
-  private void paintScreen(final Graphics g) {
     paintingScreen = true;
-    g.setClip(0, 0, displayWidth, displayHeight);
     final Rectangle changed = paintMap(mapBuffer);
 
+    // Places
     OnMapElement nextCentered;
     if (cursor != null) {
       nextCentered = centeredPlaceCheck(displayedElements);
-
       handleActiveIconChange(centeredElement, nextCentered);
     } else {
       nextCentered = centeredElement;
     }
     paintPlaces(mapBuffer, displayedElements, changed, nextCentered);
 
-//    g.drawImage(mapBuffer.getFrontImage(), 0, 0, Graphics.TOP | Graphics.LEFT);
-    //paint map copyright
+    // Title
+    paintTitle(mapBuffer.getFrontGraphics(), centeredElement);
+    
+    // Draw mapBuffer
+    g.setClip(0, 0, displayWidth, displayHeight);
+    g.drawImage(mapBuffer.getFrontImage(), 0, 0, Graphics.TOP | Graphics.LEFT);
+
+    // Copyright
     displayedMap.getCopyright().paint(g, displayWidth, displayHeight);
 
+    // Location marker
     //TODO jaanus : this should be removed after places go to map buffer
-//    g.setClip(0, 0, displayWidth, displayHeight);
     if (locationSource != null) {
       locationSource.getLocationMarker().paint(g, middlePoint, displayCenterX, displayCenterY);
     }
 
+    // Cursor
     if (cursor != null) {
       cursor.paint(g, displayWidth / 2, displayHeight / 2, displayWidth, displayHeight);
     }
 
-    if (onScreenZoomControls != null) {
-      onScreenZoomControls.paint(g, displayWidth, displayHeight);
-    }
-
-    if (zoomLevelIndicator != null && zoomLevelIndicator.isVisible()) {
-      zoomLevelIndicator.paint(g, middlePoint.getZoom(), displayWidth, displayHeight);
-    }
-
+    // Download counter display
     if (downloadDisplay != null && downloadDisplay.isVisible()) {
       downloadDisplay.paint(g, displayWidth, displayHeight);
     }
 
-    paintTitle(g, centeredElement);
-
+    // Zoom controls
+    if (onScreenZoomControls != null) {
+      onScreenZoomControls.paint(g, displayWidth, displayHeight);
+    }
+    if (zoomLevelIndicator != null && zoomLevelIndicator.isVisible()) {
+      zoomLevelIndicator.paint(g, middlePoint.getZoom(), displayWidth, displayHeight);
+    }
+    
     paintingScreen = false;
   }
 
