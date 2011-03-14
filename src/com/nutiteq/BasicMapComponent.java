@@ -149,8 +149,8 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   protected int mapBufferMoveX;
   protected int mapBufferMoveY;
 
-  private Image screenBuffer;
-  private Graphics screenBufferGraphics;
+//  private Image screenBuffer;
+//  private Graphics screenBufferGraphics;
 
   protected Image zoomBuffer;
   private Graphics zoomBufferGraphics;
@@ -244,7 +244,8 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     startWgs = middlePoint;
     startZoom = zoom;
 
-    licenseKeyCheck = new LicenseKeyCheck(this, licenseKey, appname, vendor);
+    // licenseKeyCheck = new LicenseKeyCheck(this, licenseKey, appname, vendor);
+    licenseKeyCheck = null;
   }
 
   private void createScreenCache() {
@@ -301,8 +302,8 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
 
     mapBuffer = new ImageBuffer(2, displayWidth, displayHeight);
 
-    screenBuffer = Image.createImage(displayWidth, displayHeight);
-    screenBufferGraphics = screenBuffer.getGraphics();
+//    screenBuffer = Image.createImage(displayWidth, displayHeight);
+//    screenBufferGraphics = screenBuffer.getGraphics();
 
     zoomBuffer = Image.createImage(displayWidth, displayHeight);
     zoomBufferGraphics = zoomBuffer.getGraphics();
@@ -366,8 +367,8 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
       mapBuffer.resize(width, height);
       zoomBuffer = Utils.resizeImageAndCopyPrevious(width, height, zoomBuffer);
       zoomBufferGraphics = zoomBuffer.getGraphics();
-      screenBuffer = Utils.resizeImageAndCopyPrevious(width, height, screenBuffer);
-      screenBufferGraphics = screenBuffer.getGraphics();
+//      screenBuffer = Utils.resizeImageAndCopyPrevious(width, height, screenBuffer);
+//      screenBufferGraphics = screenBuffer.getGraphics();
 
       computeTilesToDisplay();
       enqueueTiles();
@@ -484,7 +485,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
    *          screen position y
    */
   public void paintAt(final Graphics g, final int paintX, final int paintY) {
-    if (g == null || screenBuffer == null || mapBuffer == null) {
+    if (g == null || mapBuffer == null) {
       return;
     }
 
@@ -501,9 +502,13 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
       return;
     }
 
-    paintScreen(screenBufferGraphics);
+//    paintScreen(screenBufferGraphics);
+//    g.setClip(paintX, paintY, displayWidth, displayHeight);
+//    g.drawImage(screenBuffer, paintX, paintY, Graphics.TOP | Graphics.LEFT);
+
+    paintScreen(mapBuffer.getFrontGraphics());
     g.setClip(paintX, paintY, displayWidth, displayHeight);
-    g.drawImage(screenBuffer, paintX, paintY, Graphics.TOP | Graphics.LEFT);
+    g.drawImage(mapBuffer.getFrontImage(), paintX, paintY, Graphics.TOP | Graphics.LEFT);
   }
 
   private void paintScreen(final Graphics g) {
@@ -521,12 +526,12 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     }
     paintPlaces(mapBuffer, displayedElements, changed, nextCentered);
 
-    g.drawImage(mapBuffer.getFrontImage(), 0, 0, Graphics.TOP | Graphics.LEFT);
+//    g.drawImage(mapBuffer.getFrontImage(), 0, 0, Graphics.TOP | Graphics.LEFT);
     //paint map copyright
     displayedMap.getCopyright().paint(g, displayWidth, displayHeight);
 
     //TODO jaanus : this should be removed after places go to map buffer
-    g.setClip(0, 0, displayWidth, displayHeight);
+//    g.setClip(0, 0, displayWidth, displayHeight);
     if (locationSource != null) {
       locationSource.getLocationMarker().paint(g, middlePoint, displayCenterX, displayCenterY);
     }
