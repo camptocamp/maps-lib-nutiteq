@@ -1,5 +1,6 @@
 package com.nutiteq.task;
 
+import com.mgmaps.utils.Queue;
 import com.nutiteq.cache.Cache;
 import com.nutiteq.fs.FileSystem;
 import com.nutiteq.license.LicenseKeyCheck;
@@ -41,4 +42,6 @@ public interface TasksRunner extends DownloadHandler {
   FileSystem getFileSystem();
 
   void setLicenceKeyCheck(LicenseKeyCheck licenseKeyCheck);
+  
+  public Queue getQueue();
 }

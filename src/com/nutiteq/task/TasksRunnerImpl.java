@@ -139,4 +139,8 @@ public class TasksRunnerImpl implements DownloadHandler, TasksRunner {
   public void setLicenceKeyCheck(final LicenseKeyCheck licenseKeyCheck) {
     worker.setLicenceKeyCheck(licenseKeyCheck);
   }
+  
+  public Queue getQueue() {
+    return executionQueue;
+  }
 }
