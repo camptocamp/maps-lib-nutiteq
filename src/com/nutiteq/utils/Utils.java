@@ -188,10 +188,19 @@ public class Utils {
     // TODO jaanus : if new is smaller can optimize with
     // createImage(Image image, int x, int y, int width, int height, int
     // transform)
-    final Image result = Image.createImage(newWidth, newHeight);
-    final Graphics g = result.getGraphics();
-    g.drawImage(resized, (newWidth - resized.getWidth()) / 2, (newHeight - resized.getHeight()) / 2, Graphics.TOP | Graphics.LEFT);
-    resized.getBitmap().recycle();
+    Image result = null;
+    try {
+        result = Image.createImage(newWidth, newHeight);
+        final Graphics g = result.getGraphics();
+        g.drawImage(resized, (newWidth - resized.getWidth()) / 2, (newHeight - resized
+                .getHeight()) / 2, Graphics.TOP | Graphics.LEFT);
+        resized.getBitmap().recycle();
+    }
+    catch (OutOfMemoryError e) {
+        e.printStackTrace();
+        System.gc();
+        result = Image.createImage(newWidth, newHeight);
+    }
     return result;
   }
 

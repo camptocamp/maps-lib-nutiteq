@@ -53,7 +53,6 @@ private BasicMapComponent mapComponent;
           mapComponent.paint(g);
     }
     catch (OutOfMemoryError e) {
-      Log.e("MapView", e.getClass().getCanonicalName() + ": " + e.getMessage());
       e.printStackTrace();
       mapComponent.cleanNetworkCache();
       mapComponent.panMap(0, 0);
@@ -65,7 +64,6 @@ private BasicMapComponent mapComponent;
       return doTouchEvent(event);
     }
     catch (OutOfMemoryError e) {
-      Log.e("MapView", e.getClass().getCanonicalName() + ": " + e.getMessage());
       e.printStackTrace();
       mapComponent.cleanNetworkCache();
       mapComponent.panMap(0, 0);
