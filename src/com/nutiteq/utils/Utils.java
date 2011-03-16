@@ -194,7 +194,7 @@ public class Utils {
     float scaleHeight = (float) newHeight / height;
     Matrix matrix = new Matrix();
     matrix.postScale(scaleWidth, scaleHeight);
-    Image img = new Image(Bitmap.createBitmap(from, 0, 0, width, height, matrix, false));
+    Image img = new Image(Bitmap.createBitmap(from, 0, 0, width, height, matrix, true));
     if (!from.equals(img)) {
       from.recycle();
     }
