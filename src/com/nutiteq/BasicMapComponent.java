@@ -481,9 +481,6 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
       nextCentered = centeredElement;
     }
     paintPlaces(mapBuffer, displayedElements, changed, nextCentered);
-
-    // Title
-    paintTitle(mapBuffer.getFrontGraphics(), centeredElement);
     
     // Draw mapBuffer
     g.setClip(0, 0, displayWidth, displayHeight);
@@ -497,6 +494,9 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     if (locationSource != null) {
       locationSource.getLocationMarker().paint(g, middlePoint, displayCenterX, displayCenterY);
     }
+
+    // Title
+    paintTitle(g, centeredElement);
 
     // Cursor
     if (cursor != null) {
@@ -2458,7 +2458,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   }
 
   /**
-   * Get cache of networking.
+   * Remove networking cache and recreate it
    * 
    * @return cache
    */
