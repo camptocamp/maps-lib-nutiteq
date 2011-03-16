@@ -9,10 +9,12 @@ import java.io.Reader;
 import java.util.Vector;
 
 import javax.microedition.lcdui.Font;
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
+
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 
 import com.mgmaps.utils.Tools;
 import com.nutiteq.components.Rectangle;
@@ -185,23 +187,18 @@ public class Utils {
   }
 
   public static Image resizeImageAndCopyPrevious(final int newWidth, final int newHeight, final Image resized) {
-    // TODO jaanus : if new is smaller can optimize with
-    // createImage(Image image, int x, int y, int width, int height, int
-    // transform)
-    Image result = null;
-    try {
-        result = Image.createImage(newWidth, newHeight);
-        final Graphics g = result.getGraphics();
-        g.drawImage(resized, (newWidth - resized.getWidth()) / 2, (newHeight - resized
-                .getHeight()) / 2, Graphics.TOP | Graphics.LEFT);
-        resized.getBitmap().recycle();
+    Bitmap from = resized.getBitmap();
+    int width = from.getWidth();
+    int height = from.getHeight();
+    float scaleWidth = (float) newWidth / width;
+    float scaleHeight = (float) newHeight / height;
+    Matrix matrix = new Matrix();
+    matrix.postScale(scaleWidth, scaleHeight);
+    Image img = new Image(Bitmap.createBitmap(from, 0, 0, width, height, matrix, false));
+    if (!from.equals(img)) {
+      from.recycle();
     }
-    catch (OutOfMemoryError e) {
-        e.printStackTrace();
-        System.gc();
-        result = Image.createImage(newWidth, newHeight);
-    }
-    return result;
+    return img;
   }
 
   public static Rectangle mergeAreas(final Rectangle areaOne, final Rectangle areaTwo) {
