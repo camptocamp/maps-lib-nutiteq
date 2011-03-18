@@ -5,7 +5,10 @@ import javax.microedition.lcdui.Graphics;
 
 public interface OnScreenZoomControls {
 
-  /**
+  public static final int CONTROL_ZOOM_IN = 0;
+  public static final int CONTROL_ZOOM_OUT = 1;
+
+/**
    * Not part of public API
    * 
    * @param g

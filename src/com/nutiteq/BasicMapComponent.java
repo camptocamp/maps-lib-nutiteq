@@ -4,7 +4,6 @@ import java.util.Enumeration;
 import java.util.Timer;
 import java.util.Vector;
 
-import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.midlet.MIDlet;
@@ -31,7 +30,6 @@ import com.nutiteq.components.WgsPoint;
 import com.nutiteq.components.ZoomRange;
 import com.nutiteq.controls.ControlKeys;
 import com.nutiteq.controls.ControlKeysHandler;
-import com.nutiteq.controls.NutiteqOnScreenZoomControls;
 import com.nutiteq.controls.OnScreenZoomControls;
 import com.nutiteq.controls.UserDefinedKeysMapping;
 import com.nutiteq.core.MappingCore;
@@ -101,8 +99,8 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   protected int displayCenterX;
   protected int displayCenterY;
 
-  private int displayX;
-  private int displayY;
+  protected int displayX;
+  protected int displayY;
 
   protected MapPos middlePoint;
 
@@ -162,13 +160,13 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private OnMapElement centeredElement;
   private MapPos centeredClickMapPos;
 
-  private int pointerX = -1;
-  private int pointerY = -1;
-  private int pointerXMove = 0;
-  private int pointerYMove = 0;
+  protected int pointerX = -1;
+  protected int pointerY = -1;
+  protected int pointerXMove = 0;
+  protected int pointerYMove = 0;
   private boolean dragged;
 
-  private OnScreenZoomControls onScreenZoomControls;
+  protected OnScreenZoomControls onScreenZoomControls;
 
   private PanningStrategy panning;
 
@@ -1121,10 +1119,10 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     final int controlAction = getPossibleControlAction(componentX, componentY);
     if (controlAction != -1) {
       switch (controlAction) {
-      case NutiteqOnScreenZoomControls.CONTROL_ZOOM_IN:
+      case OnScreenZoomControls.CONTROL_ZOOM_IN:
         zoomIn();
         break;
-      case NutiteqOnScreenZoomControls.CONTROL_ZOOM_OUT:
+      case OnScreenZoomControls.CONTROL_ZOOM_OUT:
         zoomOut();
         break;
       }

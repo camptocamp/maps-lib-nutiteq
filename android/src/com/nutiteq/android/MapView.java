@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,15 +21,15 @@ public class MapView extends View implements MapListener {
 
   private static final int ACTION_POINTER_1_UP = 6;
   private static final int ACTION_POINTER_2_UP = 262;
-private static final int ACTION_POINTER_2_DOWN = 261;
+  private static final int ACTION_POINTER_2_DOWN = 261;
   
-private BasicMapComponent mapComponent;
+  private BasicMapComponent mapComponent;
   private Graphics g;
   private Canvas wrapped;
   private RepaintHandler repaintHandler;
   private MapListener appMapListener;
   private float altPointerStartDist;
- private boolean dualZoom;
+  private boolean dualZoom;
 
   public MapView(final Context context, final BasicMapComponent component) {
     super(context);
@@ -40,6 +39,10 @@ private BasicMapComponent mapComponent;
     mapComponent.setMapListener(this);
     repaintHandler = new RepaintHandler(this);
   }
+  
+  public Graphics getGraphics(){
+      return g;
+  }
 
   @Override
   protected void onDraw(final Canvas canvas) {
@@ -47,15 +50,15 @@ private BasicMapComponent mapComponent;
         if (wrapped != canvas) {
             wrapped = canvas;
             g = new Graphics(wrapped);
-            //TODO jaanus : what happens on size change
-             mapComponent.resize(getWidth(), getHeight());
-          }
-          mapComponent.paint(g);
+            // TODO jaanus : what happens on size change
+            mapComponent.resize(getWidth(), getHeight());
+        }
+        mapComponent.paint(g);
     }
     catch (OutOfMemoryError e) {
-      e.printStackTrace();
-      mapComponent.cleanNetworkCache();
-      mapComponent.panMap(0, 0);
+        e.printStackTrace();
+        mapComponent.cleanNetworkCache();
+        mapComponent.panMap(0, 0);
     }
   }
 
@@ -67,12 +70,11 @@ private BasicMapComponent mapComponent;
       e.printStackTrace();
       mapComponent.cleanNetworkCache();
       mapComponent.panMap(0, 0);
-      return doTouchEvent(event);
+      return false;
     }
   }
 
 protected boolean doTouchEvent(final MotionEvent event) {
-    //System.out.println("touch event action="+event.getAction());
       boolean hasMultiTouch = Integer.parseInt(Build.VERSION.SDK) >= 5;
       int nPointer = hasMultiTouch ? MotionEventWrap.getPointerCount(event) : 1;
       
@@ -89,28 +91,21 @@ protected boolean doTouchEvent(final MotionEvent event) {
                       + ((altPointerStartY2 - y) * (altPointerStartY2 - y));
 
               float moved = altPointerStartDist2 - altPointerStartDist;
-
-              //System.out.println("dt finish "+altPointerStartX2+" "+altPointerStartY2+" "+altPointerStartDist2+ " "+moved);
               
               if (moved < -10000 && moved > -70000) {
                   mapComponent.zoomOut();
-                  //System.out.println("Zoomed out to " + mapComponent.getZoom());
               }
               if (moved < -70000) {
                   mapComponent.zoomOut();
                   mapComponent.zoomOut();
-                  //System.out
-                  //        .println("Zoomed out -2 to " + mapComponent.getZoom());
               }
 
               if (moved > 10000 && moved < 70000) {
                   mapComponent.zoomIn();
-                  //System.out.println("Zoomed in to " + mapComponent.getZoom());
               }
               if (moved > 70000) {
                   mapComponent.zoomIn();
                   mapComponent.zoomIn();
-                  //System.out.println("Zoomed in +2 to " + mapComponent.getZoom());
               }
               }
               break;
@@ -122,26 +117,19 @@ protected boolean doTouchEvent(final MotionEvent event) {
               float altPointerStartY = MotionEventWrap.getY(event,1);
               altPointerStartDist = ((altPointerStartX - x) * (altPointerStartX - x))
                       + ((altPointerStartY - y) * (altPointerStartY - y));
-
-              //System.out.println("dual-touch started from "+altPointerStartX+" "+altPointerStartY+ " "+altPointerStartDist);
               }
               
               break;
           case MotionEvent.ACTION_DOWN:
               mapComponent.pointerPressed(x, y);
-
-              //System.out.println("action down "+x+" "+ y);
               break;
           case MotionEvent.ACTION_MOVE:
-              //System.out.println("action move");
               if (nPointer == 1 && !dualZoom) {
                   mapComponent.pointerDragged(x, y);
-                  //System.out.println("dragged "+x+" "+y);
               }
               break;
           case MotionEvent.ACTION_UP:
               mapComponent.pointerReleased(x, y);
-              //System.out.println("action up "+x+" "+ y);
               dualZoom=false; // reset 
               break;
 

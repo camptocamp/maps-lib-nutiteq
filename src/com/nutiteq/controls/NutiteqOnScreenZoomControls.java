@@ -21,9 +21,6 @@ public class NutiteqOnScreenZoomControls implements OnScreenZoomControls {
    */
   public static final String DEFAULT_ZOOM_IMAGE = "/images/m-l-controlls.png";
 
-  public static final int CONTROL_ZOOM_IN = 0;
-  public static final int CONTROL_ZOOM_OUT = 1;
-
   private final int[][] controlPositions;
 
   private final Image[] images;
