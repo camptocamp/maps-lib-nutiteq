@@ -193,7 +193,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
 
   private final LicenseKeyCheck licenseKeyCheck;
 
-  private boolean paintingScreen;
+  protected boolean paintingScreen;
   protected TileMapBounds tileMapBounds;
 
   private boolean mappingStarted;
