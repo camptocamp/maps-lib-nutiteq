@@ -60,6 +60,16 @@ public class ScreenCache {
   private ScreenCache(final int n) {//BattleTac code: Modified to private by Krisztian Schaffer, 2010.03.01
     resize(n);
   }
+  
+  public void reset() {
+    for (int i = 0; i < images.length; i++) {
+        if (images[i] != null) {
+            images[i].getBitmap().recycle();
+        }
+    }
+    resize(0);
+  }
+
 
   /**
    * Resize the screen cache when switching full screen.

@@ -46,7 +46,7 @@ public class MapView extends View implements MapListener {
 
   @Override
   protected void onDraw(final Canvas canvas) {
-    try {
+//    try {
         if (wrapped != canvas) {
             wrapped = canvas;
             g = new Graphics(wrapped);
@@ -54,27 +54,15 @@ public class MapView extends View implements MapListener {
             mapComponent.resize(getWidth(), getHeight());
         }
         mapComponent.paint(g);
-    }
-    catch (OutOfMemoryError e) {
-        e.printStackTrace();
-        mapComponent.cleanNetworkCache();
-        mapComponent.panMap(0, 0);
-    }
+//    }
+//    catch (OutOfMemoryError e) {
+//        e.printStackTrace();
+//        mapComponent.cleanNetworkCache();
+//        mapComponent.panMap(0, 0);
+//    }
   }
 
   public boolean onTouchEvent(final MotionEvent event) {
-    try {
-      return doTouchEvent(event);
-    }
-    catch (OutOfMemoryError e) {
-      e.printStackTrace();
-      mapComponent.cleanNetworkCache();
-      mapComponent.panMap(0, 0);
-      return false;
-    }
-  }
-
-protected boolean doTouchEvent(final MotionEvent event) {
       boolean hasMultiTouch = Integer.parseInt(Build.VERSION.SDK) >= 5;
       int nPointer = hasMultiTouch ? MotionEventWrap.getPointerCount(event) : 1;
       
