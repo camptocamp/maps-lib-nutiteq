@@ -170,7 +170,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
 
   private PanningStrategy panning;
 
-  private final Vector neededTiles = new Vector();
+  protected final Vector neededTiles = new Vector();
 
   private final Timer timer;
   private RepaintTimerTask repaintTask;
