@@ -6,7 +6,6 @@ import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
-import android.util.DisplayMetrics;
 
 public class Image {
     private final Bitmap bitmap;
@@ -77,13 +76,13 @@ public class Image {
     }
 
     private static BitmapFactory.Options getOptions() {
+        // Android specific options
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inDither = true;
         options.inPurgeable = true;
         options.inTempStorage = mTempStorage;
         // Probably not used as ARGB_8888 has already been set
         options.inPreferredConfig = Config.RGB_565;
-        options.inDensity = new DisplayMetrics().densityDpi;
         return options;
     }
 }
