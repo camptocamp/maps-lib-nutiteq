@@ -119,7 +119,14 @@ public class ScreenCache {
     }
     final int left = tiles[i].getX() - centerCopy.getX() + screenCenterX;
     final int top = tiles[i].getY() - centerCopy.getY() + screenCenterY;
-    g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
+    try {
+        g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
+    }
+    catch (RuntimeException e) {
+        // Tried to use a recycled Bitmap
+        images[i] = tiles[i].getMap().getMissingTileImage();
+        g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
+    }
   }
 
   /**
