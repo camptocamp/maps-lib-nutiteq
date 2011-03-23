@@ -117,16 +117,14 @@ public class ScreenCache {
       Log.debug(">>>>>>>>>>>>>>>>>>>>>>> SC: null image!");
       images[i] = tiles[i].getMap().getMissingTileImage();
     }
+    if (images[i].getBitmap().isRecycled()) {
+        images[i] = null;
+        valid[i] = false;
+        return;
+    }
     final int left = tiles[i].getX() - centerCopy.getX() + screenCenterX;
     final int top = tiles[i].getY() - centerCopy.getY() + screenCenterY;
-    try {
-        g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
-    }
-    catch (RuntimeException e) {
-        // Tried to use a recycled Bitmap
-        images[i] = tiles[i].getMap().getMissingTileImage();
-        g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
-    }
+    g.drawImage(images[i], left, top, Graphics.TOP | Graphics.LEFT);
   }
 
   /**
