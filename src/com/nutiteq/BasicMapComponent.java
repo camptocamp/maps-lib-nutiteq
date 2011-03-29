@@ -1119,10 +1119,10 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     final int controlAction = getPossibleControlAction(componentX, componentY);
     if (controlAction != -1) {
       switch (controlAction) {
-      case OnScreenZoomControls.CONTROL_ZOOM_IN:
+      case OnScreenZoomControls.CONTROL_ZOOM_OUT:
         zoomIn();
         break;
-      case OnScreenZoomControls.CONTROL_ZOOM_OUT:
+      case OnScreenZoomControls.CONTROL_ZOOM_IN:
         zoomOut();
         break;
       }
