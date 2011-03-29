@@ -112,12 +112,8 @@ public class ScreenCache {
    *          copy of the map center, used for synchronization
    */
   public void paint(final Graphics g, final int i, final MapPos centerCopy, final int screenCenterX, final int screenCenterY) {
-    if (images[i] == null) {
-      //TODO jaanus : why does this sometimes happen with streamed tiles?
-      Log.debug(">>>>>>>>>>>>>>>>>>>>>>> SC: null image!");
-      images[i] = tiles[i].getMap().getMissingTileImage();
-    }
-    if (images[i] != null && images[i].getBitmap() != null && images[i].getBitmap().isRecycled()) {
+    if (images[i] == null || images[i].getBitmap() == null
+            || images[i].getBitmap().isRecycled()) {
         images[i] = null;
         valid[i] = false;
         return;
