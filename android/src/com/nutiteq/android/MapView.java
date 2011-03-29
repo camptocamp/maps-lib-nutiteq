@@ -2,7 +2,10 @@ package com.nutiteq.android;
 
 import javax.microedition.lcdui.Graphics;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Message;
@@ -30,6 +33,7 @@ public class MapView extends View implements MapListener {
   private MapListener appMapListener;
   private float altPointerStartDist;
   private boolean dualZoom;
+  private final Context mContext;
 
   public MapView(final Context context, final BasicMapComponent component) {
     super(context);
@@ -38,6 +42,7 @@ public class MapView extends View implements MapListener {
     appMapListener = mapComponent.getMapListener();
     mapComponent.setMapListener(this);
     repaintHandler = new RepaintHandler(this);
+    mContext = context;
   }
   
   public Graphics getGraphics(){
@@ -46,7 +51,7 @@ public class MapView extends View implements MapListener {
 
   @Override
   protected void onDraw(final Canvas canvas) {
-//    try {
+    try {
         if (wrapped != canvas) {
             wrapped = canvas;
             g = new Graphics(wrapped);
@@ -54,12 +59,21 @@ public class MapView extends View implements MapListener {
             mapComponent.resize(getWidth(), getHeight());
         }
         mapComponent.paint(g);
-//    }
-//    catch (OutOfMemoryError e) {
-//        e.printStackTrace();
-//        mapComponent.cleanNetworkCache();
-//        mapComponent.panMap(0, 0);
-//    }
+    }
+    catch (OutOfMemoryError e) {
+        e.printStackTrace();
+        mapComponent.cleanNetworkCache();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle("OutOfMemory");
+        dialog.setMessage(e.getLocalizedMessage());
+        dialog.setPositiveButton("Quit", new AlertDialog.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ((Activity) mContext).finish();
+            }
+        });
+        dialog.show();
+    }
   }
 
   public boolean onTouchEvent(final MotionEvent event) {
