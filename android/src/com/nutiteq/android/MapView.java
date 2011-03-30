@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Message;
+import android.os.Process;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -62,7 +63,6 @@ public class MapView extends View implements MapListener {
     }
     catch (OutOfMemoryError e) {
         e.printStackTrace();
-        mapComponent.cleanNetworkCache();
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
         dialog.setTitle("OutOfMemory");
         dialog.setMessage(e.getLocalizedMessage());
@@ -70,6 +70,7 @@ public class MapView extends View implements MapListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ((Activity) mContext).finish();
+                Process.killProcess(Process.myPid());
             }
         });
         dialog.show();
