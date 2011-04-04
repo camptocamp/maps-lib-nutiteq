@@ -62,19 +62,8 @@ public class MapView extends View implements MapListener {
         mapComponent.paint(g);
     }
     catch (OutOfMemoryError e) {
-        e.printStackTrace();
-        mapComponent.cleanNetworkCache();
-        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-        dialog.setTitle("OutOfMemory");
-        dialog.setMessage(e.getLocalizedMessage());
-        dialog.setPositiveButton("Quit", new AlertDialog.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ((Activity) mContext).finish();
-                Process.killProcess(Process.myPid());
-            }
-        });
-        dialog.show();
+        oomQuit(e);
+    } catch(Exception e){
     }
   }
 
@@ -194,5 +183,22 @@ public class MapView extends View implements MapListener {
     wrapped = null;
     repaintHandler = null;
     appMapListener = null;
+  }
+  
+  public void oomQuit(OutOfMemoryError e) {
+      e.printStackTrace();
+      mapComponent.cleanNetworkCache();
+      mapComponent = null;
+      AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+      dialog.setTitle("OutOfMemory");
+      dialog.setMessage(e.getLocalizedMessage());
+      dialog.setPositiveButton("Quit", new AlertDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+              ((Activity) mContext).finish();
+              Process.killProcess(Process.myPid());
+          }
+      });
+      dialog.show();
   }
 }

@@ -161,6 +161,7 @@ public class ScreenCache {
     // find a place to add
     for (int i = 0; i < size; i++) {
       if (!valid[i] || t.equals(tiles[i])) {
+          // Recycle old image at that position
         if (images[i] != null && images[i].getBitmap() != null
                 && !images[i].getBitmap().isRecycled()) {
             images[i].getBitmap().recycle();

@@ -7,9 +7,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
 
-public class Image {
-    private final Bitmap bitmap;
+public class Image extends Object {
+    private Bitmap bitmap;
     private final static byte[] mTempStorage = new byte[16 * 1024];
+    
+    @Override
+    protected void finalize() {
+        if (bitmap != null) {
+            bitmap = null;
+        }
+    }
 
     public Image(final Bitmap bitmap) {
         this.bitmap = bitmap;

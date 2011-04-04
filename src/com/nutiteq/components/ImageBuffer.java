@@ -53,12 +53,14 @@ public class ImageBuffer extends Object {
   }
 
   public void clean() {
-    for (int i = 0; i < bufferImages.length; i++) {
-      if (bufferImages[i] != null) {
-        bufferImages[i].getBitmap().recycle();
-      }
+    if (bufferImages != null) {
+        for (int i = 0; i < bufferImages.length; i++) {
+            if (bufferImages[i] != null) {
+                bufferImages[i].getBitmap().recycle();
+            }
+        }
+        bufferImages = null;
     }
-    bufferImages = null;
     bufferGraphics = null;
     System.gc();
   }
