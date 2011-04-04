@@ -63,6 +63,7 @@ public class MapView extends View implements MapListener {
     }
     catch (OutOfMemoryError e) {
         e.printStackTrace();
+        mapComponent.cleanNetworkCache();
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
         dialog.setTitle("OutOfMemory");
         dialog.setMessage(e.getLocalizedMessage());

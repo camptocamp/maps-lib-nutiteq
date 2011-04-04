@@ -5,7 +5,7 @@ import javax.microedition.lcdui.Image;
 
 import com.nutiteq.utils.Utils;
 
-public class ImageBuffer {
+public class ImageBuffer extends Object {
   private Image[] bufferImages;
   private Graphics[] bufferGraphics;
   private int front;
@@ -17,6 +17,11 @@ public class ImageBuffer {
       bufferImages[i] = Image.createImage(imageWidth, imageHeight);
       bufferGraphics[i] = bufferImages[i].getGraphics();
     }
+  }
+  
+  @Override
+  protected void finalize() {
+    clean();
   }
 
   public Image getFrontImage() {
@@ -55,5 +60,6 @@ public class ImageBuffer {
     }
     bufferImages = null;
     bufferGraphics = null;
+    System.gc();
   }
 }

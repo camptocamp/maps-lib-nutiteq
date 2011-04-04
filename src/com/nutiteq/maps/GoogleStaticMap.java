@@ -21,6 +21,7 @@ public class GoogleStaticMap extends EPSG3785 implements GeoMap, UnstreamedMap {
   private final String developerKey;
   private final String imageFormat;
   private final String mapType;
+  private final String lang;
   private final boolean sensor;
 
   /**
@@ -49,12 +50,13 @@ public class GoogleStaticMap extends EPSG3785 implements GeoMap, UnstreamedMap {
    *          now required for all static map requests.
    */
   public GoogleStaticMap(final String developerKey, final int tileSize, final int minZoom,
-      final int maxZoom, final String imageFormat, final String mapType, final boolean sensor) {
+      final int maxZoom, final String imageFormat, final String mapType, final String lang, final boolean sensor) {
     super(new StringCopyright(""), tileSize, minZoom, maxZoom);
     this.developerKey = developerKey;
     this.imageFormat = imageFormat;
     this.mapType = mapType;
     this.sensor = sensor;
+    this.lang = lang;
   }
 
   public String buildPath(final int mapX, final int mapY, final int zoom) {
@@ -68,6 +70,7 @@ public class GoogleStaticMap extends EPSG3785 implements GeoMap, UnstreamedMap {
     url.append("&maptype=").append(mapType);
     url.append("&key=").append(developerKey);
     url.append("&sensor=").append(sensor);
+    url.append("&lang=").append(lang);
     return url.toString();
   }
 }

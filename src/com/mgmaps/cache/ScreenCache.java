@@ -10,7 +10,6 @@ import javax.microedition.lcdui.Image;
 
 import com.nutiteq.components.MapPos;
 import com.nutiteq.components.MapTile;
-import com.nutiteq.log.Log;
 import com.nutiteq.maps.GeoMap;
 import com.nutiteq.ui.ImageProcessor;
 
@@ -162,6 +161,10 @@ public class ScreenCache {
     // find a place to add
     for (int i = 0; i < size; i++) {
       if (!valid[i] || t.equals(tiles[i])) {
+        if (images[i] != null && images[i].getBitmap() != null
+                && !images[i].getBitmap().isRecycled()) {
+            images[i].getBitmap().recycle();
+        }
         valid[i] = true;
         tiles[i] = t;
         //BattleTac code starts
@@ -197,9 +200,9 @@ public class ScreenCache {
         found = i;
       } else if (!tiles[i].isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
         valid[i] = false;
-//        if (images[i] != null) {
-//            images[i].getBitmap().recycle();
-//        }
+        if (images[i] != null) {
+            images[i].getBitmap().recycle();
+        }
         tiles[i] = null;
         images[i] = null;
       }
@@ -219,14 +222,6 @@ public class ScreenCache {
    */
   public void setImageProcessor(final ImageProcessor processor) {
     imageProcessor = processor;
-//    for (int i = 0; i < size; i++) {
-//      valid[i] = false;
-//      if (images[i] != null) {
-//        images[i].getBitmap().recycle();
-//      }
-//      tiles[i] = null;
-//      images[i] = null;
-//    }
   }
   //BattleTac code ends
 
@@ -243,9 +238,6 @@ public class ScreenCache {
   public void renewTileImages() {
     for(int i=0; i < size; i++) {
       if( valid[i] && tiles[i] != null ) {
-        if (images[i] != null) {
-          images[i].getBitmap().recycle();
-        }
         images[i] = tiles[i].getImage();
       }
     }

@@ -10,6 +10,8 @@ import java.util.Hashtable;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
+import android.text.StaticLayout;
+
 import com.nutiteq.log.Log;
 import com.nutiteq.utils.IOUtils;
 
