@@ -3,6 +3,8 @@ package com.nutiteq.cache;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import android.os.Debug;
+
 /**
  * <p>
  * Memory cache implementing LRU (least recently used) strategy. If cache is full, least recently
@@ -17,10 +19,25 @@ import java.util.Map;
 public class MemoryCache implements Cache {
 
     // private LinkedHashMap<String, SoftReference<byte[]>> cache;
+    private static final int DEFAULT_LENGTH = 50;
     private LinkedHashMap<String, byte[]> cache;
     private static final float loadFactor = 1.1f;
     private final int mCacheSize;
+    private int mCacheLength;
     private int size;
+
+    /**
+     * Create a new MemoryCache instance.
+     * 
+     * @param mCacheSize
+     *            cache size in element number.
+     * @param mCacheLength
+     *            cache size in bytes.
+     */
+    public MemoryCache(final int cl, final int cs) {
+        mCacheLength = cl;
+        mCacheSize = cs;
+    }
 
     /**
      * Create a new MemoryCache instance.
@@ -29,20 +46,23 @@ public class MemoryCache implements Cache {
      *            cache size in element number.
      */
     public MemoryCache(final int cs) {
+        mCacheLength = DEFAULT_LENGTH;
         mCacheSize = cs;
     }
 
     public void initialize() {
         // cache = new LinkedHashMap<String, SoftReference<byte[]>>(mCacheSize + 1, loadFactor,
         // true) {
-        cache = new LinkedHashMap<String, byte[]>(mCacheSize + 1, loadFactor, true) {
+        cache = new LinkedHashMap<String, byte[]>(mCacheLength, loadFactor, true) {
             private static final long serialVersionUID = 1;
 
             @Override
             // protected boolean removeEldestEntry(Map.Entry<String, SoftReference<byte[]>> eldest)
             // {
             protected boolean removeEldestEntry(Map.Entry<String, byte[]> eldest) {
-                if (size() > mCacheSize) {
+                android.util.Log.e("TEST", "mem=" + size + " (" + Debug.getNativeHeapFreeSize()
+                        + ")");
+                if (size() > mCacheLength || size > mCacheSize) {
                     size -= eldest.getValue().length;
                     // final SoftReference<byte[]> softRef = eldest.getValue();
                     // if (softRef != null) {

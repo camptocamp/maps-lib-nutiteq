@@ -62,7 +62,7 @@ public class MapView extends View implements MapListener {
         mapComponent.paint(g);
     }
     catch (OutOfMemoryError e) {
-        oomQuit(e);
+        oomQuit((Activity) mContext, e);
     } catch(Exception e){
     }
   }
@@ -185,17 +185,15 @@ public class MapView extends View implements MapListener {
     appMapListener = null;
   }
   
-  public void oomQuit(OutOfMemoryError e) {
+  public static void oomQuit(final Activity ctxt, OutOfMemoryError e) {
       e.printStackTrace();
-      mapComponent.cleanNetworkCache();
-      mapComponent = null;
-      AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+      AlertDialog.Builder dialog = new AlertDialog.Builder(ctxt);
       dialog.setTitle("OutOfMemory");
       dialog.setMessage(e.getLocalizedMessage());
       dialog.setPositiveButton("Quit", new AlertDialog.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
-              ((Activity) mContext).finish();
+              ctxt.finish();
               Process.killProcess(Process.myPid());
           }
       });
