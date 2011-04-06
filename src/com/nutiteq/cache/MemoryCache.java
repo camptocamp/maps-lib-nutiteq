@@ -1,9 +1,10 @@
 package com.nutiteq.cache;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import android.os.Debug;
+import java.util.Map.Entry;
 
 /**
  * <p>
@@ -18,7 +19,6 @@ import android.os.Debug;
  */
 public class MemoryCache implements Cache {
 
-    // private LinkedHashMap<String, SoftReference<byte[]>> cache;
     private static final int DEFAULT_LENGTH = 50;
     private LinkedHashMap<String, byte[]> cache;
     private static final float loadFactor = 1.1f;
@@ -51,26 +51,13 @@ public class MemoryCache implements Cache {
     }
 
     public void initialize() {
-        // cache = new LinkedHashMap<String, SoftReference<byte[]>>(mCacheSize + 1, loadFactor,
-        // true) {
         cache = new LinkedHashMap<String, byte[]>(mCacheLength, loadFactor, true) {
             private static final long serialVersionUID = 1;
 
             @Override
-            // protected boolean removeEldestEntry(Map.Entry<String, SoftReference<byte[]>> eldest)
-            // {
             protected boolean removeEldestEntry(Map.Entry<String, byte[]> eldest) {
-                android.util.Log.e("TEST", "mem=" + size + " (" + Debug.getNativeHeapFreeSize()
-                        + ")");
                 if (size() > mCacheLength || size > mCacheSize) {
                     size -= eldest.getValue().length;
-                    // final SoftReference<byte[]> softRef = eldest.getValue();
-                    // if (softRef != null) {
-                    // if (softRef.get() == null) {
-                    // return true;
-                    // }
-                    // size -= softRef.get().length;
-                    // }
                     return true;
                 }
                 return false;
@@ -86,15 +73,6 @@ public class MemoryCache implements Cache {
     }
 
     public byte[] get(final String cacheId) {
-        // byte[] result = null;
-        // final SoftReference<byte[]> softRef = cache.get(cacheId);
-        // if (softRef != null) {
-        // result = softRef.get();
-        // if (result == null) {
-        // cache.remove(cacheId);
-        // }
-        // }
-        // return result;
         return cache.get(cacheId);
     }
 
@@ -105,7 +83,6 @@ public class MemoryCache implements Cache {
         }
         size += data.length;
         synchronized (cache) {
-            // cache.put(cacheId, new SoftReference<byte[]>(data));
             cache.put(cacheId, data);
         }
     }
@@ -114,7 +91,6 @@ public class MemoryCache implements Cache {
         if (cache == null) {
             return false;
         }
-        // return cache.containsKey(cacheKey) && !cache.get(cacheKey).isEnqueued();
         return cache.containsKey(cacheKey);
     }
 
@@ -131,26 +107,25 @@ public class MemoryCache implements Cache {
     }
 
     protected int getActualElementsSize() {
-        // final Collection<SoftReference<byte[]>> e = (Collection<SoftReference<byte[]>>) cache
-        // .values();
-        // final Iterator<SoftReference<byte[]>> i = e.iterator();
+        final Collection<byte[]> e = (Collection<byte[]>) cache.values();
+        final Iterator<byte[]> i = e.iterator();
         int result = 0;
-        // while (i.hasNext()) {
-        // final byte[] item = i.next().get();
-        // result += item.length;
-        // }
+        while (i.hasNext()) {
+            final byte[] item = i.next();
+            result += item.length;
+        }
         return result;
     }
 
     protected CacheItem getMRU() {
         CacheItem ci = new CacheItem();
-        // Iterator<Entry<String, SoftReference<byte[]>>> i = cache.entrySet().iterator();
-        // Entry<String, SoftReference<byte[]>> e = null;
-        // while (i.hasNext()) {
-        // e = i.next();
-        // }
-        // ci.key = e.getKey();
-        // ci.data = e.getValue().get();
+        Iterator<Entry<String, byte[]>> i = cache.entrySet().iterator();
+        Entry<String, byte[]> e = null;
+        while (i.hasNext()) {
+            e = i.next();
+        }
+        ci.key = e.getKey();
+        ci.data = e.getValue();
         return ci;
     }
 }
