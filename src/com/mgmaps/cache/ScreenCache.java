@@ -62,8 +62,11 @@ public class ScreenCache {
   
   public void reset() {
     for (int i = 0; i < images.length; i++) {
-        if (images[i] != null) {
+        if (valid[i]) {
+//            android.util.Log.e("TEST", "recycle everything " + tiles[i].getIDString());
             images[i].getBitmap().recycle();
+            tiles[i] = null;
+            valid[i] = false;
         }
     }
     resize(0);
@@ -148,6 +151,8 @@ public class ScreenCache {
   public int add(final MapTile t, final MapPos mp, final GeoMap displayedMap, final int screenCenterX, final int screenCenterY, final boolean update) {
     // if the tile is not (no longer) visible, return -1
     if (!t.isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
+        t.getImage().getBitmap().recycle();
+//        android.util.Log.e("TEST", "recycle not visible "+t.getIDString());
       return -1;
     }
 
@@ -165,17 +170,18 @@ public class ScreenCache {
         if (images[i] != null && images[i].getBitmap() != null
                 && !images[i].getBitmap().isRecycled()) {
             images[i].getBitmap().recycle();
+//            android.util.Log.e("TEST", "recycle old "+tiles[i].getIDString());
         }
-        valid[i] = true;
-        tiles[i] = t;
         //BattleTac code starts
         //Modified by Krisztian Schaffer, 2010.02.26
         Image image = t.getImage();
         if (imageProcessor != null) {
           image = imageProcessor.processImage(image);
         }
-        images[i] = image;
         //BattleTac code ends
+        images[i] = image;
+        tiles[i] = t;
+        valid[i] = true;
         return i;
       }
     }
@@ -200,12 +206,13 @@ public class ScreenCache {
       if (tiles[i].equals(t)) {
         found = i;
       } else if (!tiles[i].isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
-        valid[i] = false;
         if (images[i] != null) {
             images[i].getBitmap().recycle();
+//            android.util.Log.e("TEST", "recycle sweepfind found but not visible "+tiles[i].getIDString());
         }
         tiles[i] = null;
         images[i] = null;
+        valid[i] = false;
       }
     }
     return found;

@@ -186,8 +186,9 @@ public class Utils {
     return (int) (Math.log(x) / Math.log(2));
   }
 
-  public static Image resizeImageAndCopyPrevious(final int newWidth, final int newHeight, final Image resized) {
-    Bitmap from = resized.getBitmap();
+  public static Image resizeImageAndCopyPrevious(final int newWidth, final int newHeight,
+          final Image resized) {
+    final Bitmap from = resized.getBitmap();
     int width = from.getWidth();
     int height = from.getHeight();
     float scaleWidth = (float) newWidth / width;

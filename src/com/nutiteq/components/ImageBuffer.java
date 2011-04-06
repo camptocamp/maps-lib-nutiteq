@@ -3,14 +3,22 @@ package com.nutiteq.components;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-import com.nutiteq.utils.Utils;
-
 public class ImageBuffer extends Object {
+    
+  private static ImageBuffer INSTANCE;
   private Image[] bufferImages;
   private Graphics[] bufferGraphics;
   private int front;
 
-  public ImageBuffer(final int numberOfImages, final int imageWidth, final int imageHeight) {
+  public static ImageBuffer getInstance(final int numberOfImages, final int imageWidth,
+        final int imageHeight) {
+    if (INSTANCE == null) {
+        INSTANCE = new ImageBuffer(numberOfImages, imageWidth, imageHeight);
+    }
+    return INSTANCE;
+  }
+  
+  private ImageBuffer(final int numberOfImages, final int imageWidth, final int imageHeight) {
     bufferImages = new Image[numberOfImages];
     bufferGraphics = new Graphics[numberOfImages];
     for (int i = 0; i < bufferImages.length; i++) {
@@ -47,8 +55,13 @@ public class ImageBuffer extends Object {
 
   public void resize(final int newWidth, final int newHeight) {
     for (int i = 0; i < bufferImages.length; i++) {
-      bufferImages[i] = Utils.resizeImageAndCopyPrevious(newWidth, newHeight, bufferImages[i]);
-      bufferGraphics[i] = bufferImages[i].getGraphics();
+        if(bufferImages[i].getBitmap() != null){
+            bufferImages[i].getBitmap().recycle();
+        }
+        // bufferImages[i] = Utils.resizeImageAndCopyPrevious(newWidth, newHeight,
+        // bufferImages[i]);
+        bufferImages[i] = Image.createImage(newWidth, newHeight);
+        bufferGraphics[i] = bufferImages[i].getGraphics();
     }
   }
 

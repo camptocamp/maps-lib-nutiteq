@@ -298,7 +298,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     
     initializeMiddlePoint();
 
-    mapBuffer = new ImageBuffer(2, displayWidth, displayHeight);
+    mapBuffer = ImageBuffer.getInstance(2, displayWidth, displayHeight);
 
 //    screenBuffer = Image.createImage(displayWidth, displayHeight);
 //    screenBufferGraphics = screenBuffer.getGraphics();
@@ -811,7 +811,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   }
 
   protected void createZoomBufferAndUpdateScreen(final double scale, final boolean needZoomDelay,
-        final boolean zoomOut) {
+        final boolean zoomOut) {      
     // kind of a hack for pointer events. if map is dragged and pointer is
     // released outside painted area (when map is not full screen) the pointer
     // location values are not reset.
