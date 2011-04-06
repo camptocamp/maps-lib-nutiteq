@@ -75,6 +75,7 @@ public class ImageBuffer extends Object {
         bufferImages = null;
     }
     bufferGraphics = null;
+    INSTANCE = null;
     System.gc();
   }
 }
