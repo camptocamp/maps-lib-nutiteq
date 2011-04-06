@@ -27,7 +27,7 @@ public class MapView extends View implements MapListener {
   private static final int ACTION_POINTER_2_UP = 262;
   private static final int ACTION_POINTER_2_DOWN = 261;
   
-  private BasicMapComponent mapComponent;
+  protected BasicMapComponent mapComponent;
   private Graphics g;
   private Canvas wrapped;
   private RepaintHandler repaintHandler;
