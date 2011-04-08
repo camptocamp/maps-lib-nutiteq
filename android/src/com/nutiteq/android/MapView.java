@@ -34,12 +34,14 @@ public class MapView extends View implements MapListener {
   private MapListener appMapListener;
   private float altPointerStartDist;
   private boolean dualZoom;
-  private final Context mContext;
+  private Context mContext;
 
   public MapView(final Context context, final BasicMapComponent component) {
     super(context);
     setFocusable(true);
-    setMapComponenent(component);
+    mapComponent = component;
+    appMapListener = component.getMapListener();
+    component.setMapListener(this);
     repaintHandler = new RepaintHandler(this);
     mContext = context;
   }
@@ -61,7 +63,8 @@ public class MapView extends View implements MapListener {
     }
     catch (OutOfMemoryError e) {
         oomQuit((Activity) mContext, e);
-    } catch(Exception e){
+    } catch (Exception e) {
+        e.printStackTrace();
     }
   }
 
@@ -181,12 +184,7 @@ public class MapView extends View implements MapListener {
     wrapped = null;
     repaintHandler = null;
     appMapListener = null;
-  }
-  
-  public void setMapComponenent(BasicMapComponent component){
-    mapComponent = component;
-    appMapListener = component.getMapListener();
-    component.setMapListener(this);
+    mContext = null;
   }
   
   public static void oomQuit(final Activity ctxt, OutOfMemoryError e) {
