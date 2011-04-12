@@ -2316,9 +2316,11 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
         zoomOut = true;
     }
     
-    middlePoint = displayedMap.zoom(middlePoint, dif);
-    tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
-    createZoomBufferAndUpdateScreen(Utils.log2(dif), true, zoomOut);
+    if (dif != 0) {
+        middlePoint = displayedMap.zoom(middlePoint, dif);
+        tileMapBounds = displayedMap.getTileMapBounds(middlePoint.getZoom());
+        createZoomBufferAndUpdateScreen(Utils.log2(dif), true, zoomOut);
+    }
   }
   
   /**
