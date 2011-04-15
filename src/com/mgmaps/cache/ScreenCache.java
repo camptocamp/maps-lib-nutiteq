@@ -63,7 +63,7 @@ public class ScreenCache {
   public void reset() {
     for (int i = 0; i < images.length; i++) {
         if (valid[i]) {
-//            android.util.Log.e("TEST", "recycle everything " + tiles[i].getIDString());
+            android.util.Log.e("TEST", "reset() recycle everything " + tiles[i].getIDString());
             images[i].getBitmap().recycle();
             tiles[i] = null;
             valid[i] = false;
@@ -152,7 +152,7 @@ public class ScreenCache {
     // if the tile is not (no longer) visible, return -1
     if (!t.isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
         t.getImage().getBitmap().recycle();
-//        android.util.Log.e("TEST", "recycle not visible "+t.getIDString());
+        android.util.Log.e("TEST", "add() recycle not visible "+t.getIDString());
       return -1;
     }
 
@@ -170,7 +170,7 @@ public class ScreenCache {
         if (images[i] != null && images[i].getBitmap() != null
                 && !images[i].getBitmap().isRecycled()) {
             images[i].getBitmap().recycle();
-//            android.util.Log.e("TEST", "recycle old "+tiles[i].getIDString());
+            android.util.Log.e("TEST", "add() recycle old "+tiles[i].getIDString());
         }
         //BattleTac code starts
         //Modified by Krisztian Schaffer, 2010.02.26
@@ -208,7 +208,7 @@ public class ScreenCache {
       } else if (!tiles[i].isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
         if (images[i] != null) {
             images[i].getBitmap().recycle();
-//            android.util.Log.e("TEST", "recycle sweepfind found but not visible "+tiles[i].getIDString());
+            android.util.Log.e("TEST", "sweepfind() recycle found but not visible "+tiles[i].getIDString());
         }
         tiles[i] = null;
         images[i] = null;
