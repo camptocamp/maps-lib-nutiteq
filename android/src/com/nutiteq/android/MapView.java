@@ -31,10 +31,10 @@ public class MapView extends View implements MapListener {
   private Graphics g;
   private Canvas wrapped;
   private RepaintHandler repaintHandler;
-  private MapListener appMapListener;
+  protected MapListener appMapListener;
   private float altPointerStartDist;
   private boolean dualZoom;
-  private Context mContext;
+  protected Context mContext;
 
   public MapView(final Context context, final BasicMapComponent component) {
     super(context);

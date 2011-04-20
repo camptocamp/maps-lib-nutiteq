@@ -161,7 +161,7 @@ public class ScreenCache {
     if (pos >= 0 && !update) { // found? return
       return pos;
     }
-
+    
     // LOW rewrite if it slows down the app too much (it's O(n))
     // find a place to add
     for (int i = 0; i < size; i++) {

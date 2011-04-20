@@ -19,7 +19,8 @@ import java.util.Map.Entry;
  */
 public class MemoryCache implements Cache {
 
-    private static final int DEFAULT_LENGTH = 50;
+    protected static final String TAG = "MemoryCache";
+    private static final int DEFAULT_LENGTH = 60;
     private LinkedHashMap<String, byte[]> cache;
     private static final float loadFactor = 1.1f;
     private final int mCacheSize;
@@ -51,6 +52,7 @@ public class MemoryCache implements Cache {
     }
 
     public void initialize() {
+        size = 0;
         cache = new LinkedHashMap<String, byte[]>(mCacheLength, loadFactor, true) {
             private static final long serialVersionUID = 1;
 
