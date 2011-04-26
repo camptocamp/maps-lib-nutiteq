@@ -1289,7 +1289,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
     controlKeysHandler = keysHandler;
   }
 
-  private void computeTilesToDisplay() {
+  public void computeTilesToDisplay() {
     if (middlePoint == null) {
       return;
     }
@@ -1317,7 +1317,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   /**
    * Enqueue map tiles to download, in "radial" order.
    */
-  protected void enqueueTiles() {
+  public void enqueueTiles() {
     final int tileSize = displayedMap.getTileSize();
     for (int k = 0; k <= (tileW >> 1) + (tileH >> 1); k++) {
       for (int i = Math.max(0, k - (tileH >> 1)); i <= (tileW >> 1); i++) {
