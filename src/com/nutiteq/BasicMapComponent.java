@@ -1361,7 +1361,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
    *          map tile
    */
   private void enqueueTile(final MapTile mt) {
-    if (!tileMapBounds.isWithinBounds(mt.getX(), mt.getY())) {
+    if (tileMapBounds != null && !tileMapBounds.isWithinBounds(mt.getX(), mt.getY())) {
       return;
     }
 
