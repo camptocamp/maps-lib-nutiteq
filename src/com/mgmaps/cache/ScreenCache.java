@@ -207,7 +207,9 @@ public class ScreenCache {
         found = i;
       } else if (!tiles[i].isVisible(mp, displayedMap, screenCenterX, screenCenterY)) {
         if (images[i] != null) {
-            images[i].getBitmap().recycle();
+            if(!t.getImage().equals(displayedMap.getMissingTileImage())){
+                images[i].getBitmap().recycle();
+            }
 //            android.util.Log.e("TEST", "sweepfind() recycle found but not visible "+tiles[i].getIDString());
         }
         tiles[i] = null;
