@@ -135,7 +135,7 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   private KmlServicesHandler kmlServicesHandler;
   protected com.nutiteq.cache.Cache networkCache;
 
-  protected final TasksRunner taskRunner;
+  public final TasksRunner taskRunner;
 
   protected ScreenCache screenCache;
 
