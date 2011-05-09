@@ -1965,6 +1965,9 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
 
     mapBuffer.clean();
     mapBuffer = null;
+    
+    zoomBuffer.getBitmap().recycle();
+    zoomBuffer = null;
 
     System.gc();
   }
