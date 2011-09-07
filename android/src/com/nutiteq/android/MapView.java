@@ -53,7 +53,7 @@ public class MapView extends View implements MapListener {
   @Override
   protected void onDraw(final Canvas canvas) {
     try {
-        if (wrapped != canvas) {
+        if (wrapped != canvas || g == null) {
             wrapped = canvas;
             g = new Graphics(wrapped);
             // TODO jaanus : what happens on size change
