@@ -644,6 +644,10 @@ public class BasicMapComponent extends BaseMapComponent implements MapTilesReque
   // Three polygons added
   // 2008.08.27 11:00 WTK   | 10000     | 1 | 0 | 23932
   protected Rectangle paintMap(final ImageBuffer buffer) {
+    if(buffer == null){
+        return;
+    }
+
     final Graphics g = buffer.getBackGraphics();
     g.setClip(0, 0, displayWidth, displayHeight);
     //view was moved since last paint
